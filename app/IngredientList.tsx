@@ -1,27 +1,32 @@
 "use client";
 
+import { Number } from "mongoose";
 import React, { useEffect, useState } from "react";
 
-// Define the type for your ingredient data
+type Contributor = {
+	contributor: string;
+	amount: Number;
+	note: string;
+};
+
 type Ingredient = {
-	_id: string; // Assuming you have MongoDB ObjectId
+	_id: string;
 	name: string;
 	desired_amount: number;
 	current_amount: number;
 	unit: string;
+	contributors: Contributor[];
 };
 
 const IngredientList: React.FC = () => {
-	// State to store ingredients, loading status, and errors
 	const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		// Fetch data from the API
 		const fetchData = async () => {
 			try {
-				const response = await fetch("/api/christmas"); // This is your API route
+				const response = await fetch("/api/christmas");
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
 				}
@@ -53,19 +58,45 @@ const IngredientList: React.FC = () => {
 		<div>
 			<h1>Christmas Bake Ingredients</h1>
 			<ul>
-				{ingredients.map((ingredient) => (
-					<li key={ingredient._id}>
-						<h2>{ingredient.name}</h2>
-						<ul>
-							<li>
-								Desired amount: {ingredient.desired_amount} {ingredient.unit}
-							</li>
-							<li>
-								Current amount: {ingredient.current_amount} {ingredient.unit}
-							</li>
-						</ul>
-					</li>
-				))}
+				{ingredients.map((ingredient) => {
+					console.log(
+						"🚀 ~ {ingredients.map ~ ingredient.contributors.length:",
+						ingredient.contributors[0],
+					);
+					return (
+						<li
+							key={ingredient._id}
+							className="border border-solid border-gray-500 rounded-md my-4 p-3"
+						>
+							<div>
+								<h2>{ingredient.name}</h2>
+								<ul>
+									<li>
+										Desired amount: {ingredient.desired_amount}{" "}
+										{ingredient.unit}
+									</li>
+									<li>
+										Current amount: {ingredient.current_amount}{" "}
+										{ingredient.unit}
+									</li>
+								</ul>
+							</div>
+							{ingredient.contributors?.length > 0 && (
+								<div className="bg-gray-500 mt-4 p-2 rounded-md">
+									{ingredient.contributors.map((contributor) => (
+										<div key={contributor.contributor}>
+											<p>namn: {contributor.contributor}</p>
+											<p>
+												antal: {contributor.amount.toString()} {ingredient.unit}
+											</p>
+											<p>anteckningar: {contributor.note}</p>
+										</div>
+									))}
+								</div>
+							)}
+						</li>
+					);
+				})}
 			</ul>
 		</div>
 	);
