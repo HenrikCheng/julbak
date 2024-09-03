@@ -1,4 +1,4 @@
-export async function GET(request: any) {
+export async function GET() {
 	return new Response(JSON.stringify({ message: "Hello, world!" }), {
 		headers: { "Content-Type": "application/json" },
 	});

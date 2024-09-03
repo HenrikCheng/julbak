@@ -60,24 +60,47 @@ export async function DELETE(request: Request) {
 		const db = client.db("Christmas_bake");
 
 		const url = new URL(request.url);
-		const id = url.searchParams.get("id");
+		const itemId = url.searchParams.get("id");
+		const contributorName = url.searchParams.get("contributorName");
 
-		if (!id) {
+		if (!itemId) {
 			return NextResponse.json({ error: "Missing item ID" }, { status: 400 });
 		}
 
-		const result = await db
-			.collection("bake_content")
-			.deleteOne({ _id: new ObjectId(id) });
+		if (contributorName) {
+			// Delete a specific contributor from an ingredient
+			const result = await db
+				.collection("bake_content")
+				.updateOne({ _id: new ObjectId(itemId) }, {
+					$pull: { contributors: { contributor: contributorName } },
+				} as any);
 
-		if (result.deletedCount === 0) {
-			return NextResponse.json({ error: "Item not found" }, { status: 404 });
+			if (result.modifiedCount === 0) {
+				return NextResponse.json(
+					{ error: "Contributor not found or not removed" },
+					{ status: 404 },
+				);
+			}
+
+			return NextResponse.json(
+				{ message: "Contributor deleted successfully" },
+				{ status: 200 },
+			);
+		} else {
+			// Delete the entire ingredient item
+			const result = await db
+				.collection("bake_content")
+				.deleteOne({ _id: new ObjectId(itemId) });
+
+			if (result.deletedCount === 0) {
+				return NextResponse.json({ error: "Item not found" }, { status: 404 });
+			}
+
+			return NextResponse.json(
+				{ message: "Item deleted successfully" },
+				{ status: 200 },
+			);
 		}
-
-		return NextResponse.json(
-			{ message: "Item deleted successfully" },
-			{ status: 200 },
-		);
 	} catch (e) {
 		console.error(e);
 
@@ -93,31 +116,59 @@ export async function PATCH(request: Request) {
 		const client = await clientPromise;
 		const db = client.db("Christmas_bake");
 
-		// Extract the ID from the request URL
 		const url = new URL(request.url);
 		const id = url.searchParams.get("id");
+		const contributorName = url.searchParams.get("contributorName");
 
 		if (!id) {
 			return NextResponse.json({ error: "Missing item ID" }, { status: 400 });
 		}
 
-		const updatedData = await request.json();
+		const updateOperation = await request.json();
 
-		const result = await db
-			.collection("bake_content")
-			.updateOne({ _id: new ObjectId(id) }, { $set: updatedData });
+		if (contributorName) {
+			// Update specific fields within a contributor object
+			const result = await db.collection("bake_content").updateOne(
+				{ _id: new ObjectId(id) },
+				{
+					$set: updateOperation,
+				},
+				{
+					arrayFilters: [{ "elem.contributor": contributorName }],
+				},
+			);
 
-		if (result.matchedCount === 0) {
-			return NextResponse.json({ error: "Item not found" }, { status: 404 });
+			if (result.matchedCount === 0) {
+				return NextResponse.json(
+					{ error: "Item or contributor not found" },
+					{ status: 404 },
+				);
+			}
+
+			return NextResponse.json(
+				{ message: "Contributor updated successfully" },
+				{ status: 200 },
+			);
+		} else {
+			// Update the entire document if no specific contributor is targeted
+			const result = await db.collection("bake_content").updateOne(
+				{ _id: new ObjectId(id) },
+				{
+					$set: updateOperation,
+				},
+			);
+
+			if (result.matchedCount === 0) {
+				return NextResponse.json({ error: "Item not found" }, { status: 404 });
+			}
+
+			return NextResponse.json(
+				{ message: "Item updated successfully" },
+				{ status: 200 },
+			);
 		}
-
-		return NextResponse.json(
-			{ message: "Item updated successfully" },
-			{ status: 200 },
-		);
 	} catch (e) {
 		console.error(e);
-
 		return NextResponse.json(
 			{ error: "Internal Server Error" },
 			{ status: 500 },

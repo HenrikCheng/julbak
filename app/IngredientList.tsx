@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Button from "./components/Button";
+import Skeleton from "./components/Skeleton";
 
 type Contributor = {
 	contributor: string;
 	amount: Number;
-	note: string;
+	note?: string;
 };
 
 type Ingredient = {
@@ -46,7 +48,14 @@ const IngredientList: React.FC = () => {
 	}, []);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return (
+			<div className="grid grid-flow-row grid-cols-1 gap-8">
+				<Skeleton />
+				<Skeleton />
+				<Skeleton />
+				<Skeleton />
+			</div>
+		);
 	}
 
 	if (error) {
@@ -54,50 +63,64 @@ const IngredientList: React.FC = () => {
 	}
 
 	return (
-		<div>
-			<h1>Christmas Bake Ingredients</h1>
-			<ul>
-				{ingredients.map((ingredient) => {
-					console.log(
-						"🚀 ~ {ingredients.map ~ ingredient.contributors.length:",
-						ingredient.contributors[0],
-					);
-					return (
-						<li
-							key={ingredient._id}
-							className="border border-solid border-gray-500 rounded-md my-4 p-3"
-						>
-							<div>
-								<h2>{ingredient.name}</h2>
-								<ul>
-									<li>
-										Desired amount: {ingredient.desired_amount}{" "}
-										{ingredient.unit}
-									</li>
-									<li>
-										Current amount: {ingredient.current_amount}{" "}
-										{ingredient.unit}
-									</li>
-								</ul>
-							</div>
-							{ingredient.contributors?.length > 0 && (
-								<div className="bg-gray-500 mt-4 p-2 rounded-md">
-									{ingredient.contributors.map((contributor) => (
-										<div key={contributor.contributor}>
-											<p>namn: {contributor.contributor}</p>
-											<p>
-												antal: {contributor.amount.toString()} {ingredient.unit}
-											</p>
-											<p>anteckningar: {contributor.note}</p>
-										</div>
-									))}
+		<ul>
+			{ingredients.map((ingredient) => {
+				console.log(
+					"🚀 ~ {ingredients.map ~ ingredient.contributors.length:",
+					ingredient.contributors[0],
+				);
+				return (
+					<li
+						key={ingredient._id}
+						className="border border-solid border-gray-500 rounded-md my-4"
+					>
+						<div className="p-3 mb-4">
+							<h2>{ingredient.name}</h2>
+							<ul>
+								<li>
+									Desired amount: {ingredient.desired_amount} {ingredient.unit}
+								</li>
+								<li>
+									Current amount: {ingredient.current_amount} {ingredient.unit}
+								</li>
+							</ul>
+							<Button color="blue" onClick={() => console.log("click change")}>
+								Jag kan bidra
+							</Button>
+						</div>
+						{ingredient.contributors?.length > 0 &&
+							ingredient.contributors.map((contributor, index) => (
+								<div
+									key={contributor.contributor}
+									className={`p-2 rounded-b-md ${
+										index % 2 === 0 ? "bg-slate-800" : "bg-slate-600"
+									}`}
+								>
+									<p>namn: {contributor.contributor}</p>
+									<p>
+										antal: {contributor.amount.toString()} {ingredient.unit}
+									</p>
+									<p>anteckningar: {contributor.note}</p>
+									<div className="flex justify-between">
+										<Button
+											color="blue"
+											onClick={() => console.log("click change")}
+										>
+											Ändra
+										</Button>
+										<Button
+											color="red"
+											onClick={() => console.log("click delete")}
+										>
+											Ta bort
+										</Button>
+									</div>
 								</div>
-							)}
-						</li>
-					);
-				})}
-			</ul>
-		</div>
+							))}
+					</li>
+				);
+			})}
+		</ul>
 	);
 };
 
