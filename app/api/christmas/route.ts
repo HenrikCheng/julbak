@@ -12,14 +12,13 @@ export async function GET() {
 		const ingredients = await db
 			.collection("bake_content")
 			.find({})
-			.sort({ metacritic: -1 })
+			.sort({ name: 1 })
 			.limit(10)
 			.toArray();
 
 		return NextResponse.json(ingredients);
-	} catch (e) {
-		console.error(e);
-
+	} catch (error) {
+		console.error(error);
 		return NextResponse.json(
 			{ error: "Internal Server Error" },
 			{ status: 500 },
@@ -31,22 +30,20 @@ export async function POST(request: Request) {
 	try {
 		const client = await clientPromise;
 		const db = client.db("Christmas_bake");
-
 		const newItem = await request.json();
 
-		if (!newItem.name || !newItem.desired_amount || !newItem.unit) {
+		const { name, desired_amount, unit } = newItem;
+		if (!name || !desired_amount || !unit) {
 			return NextResponse.json(
-				{ error: "Missing required fields" },
+				{ error: "Missing required fields: name, desired_amount, or unit" },
 				{ status: 400 },
 			);
 		}
 
 		const result = await db.collection("bake_content").insertOne(newItem);
-
 		return NextResponse.json(result, { status: 201 });
-	} catch (e) {
-		console.error(e);
-
+	} catch (error) {
+		console.error(error);
 		return NextResponse.json(
 			{ error: "Internal Server Error" },
 			{ status: 500 },
@@ -67,13 +64,15 @@ export async function DELETE(request: Request) {
 			return NextResponse.json({ error: "Missing item ID" }, { status: 400 });
 		}
 
+		let result;
 		if (contributorName) {
 			// Delete a specific contributor from an ingredient
-			const result = await db
+			result = await db
 				.collection("bake_content")
-				.updateOne({ _id: new ObjectId(itemId) }, {
-					$pull: { contributors: { contributor: contributorName } },
-				} as any);
+				.updateOne(
+					{ _id: new ObjectId(itemId) },
+					{ $pull: { contributors: { contributor: contributorName } as any } },
+				);
 
 			if (result.modifiedCount === 0) {
 				return NextResponse.json(
@@ -88,7 +87,7 @@ export async function DELETE(request: Request) {
 			);
 		} else {
 			// Delete the entire ingredient item
-			const result = await db
+			result = await db
 				.collection("bake_content")
 				.deleteOne({ _id: new ObjectId(itemId) });
 
@@ -101,9 +100,8 @@ export async function DELETE(request: Request) {
 				{ status: 200 },
 			);
 		}
-	} catch (e) {
-		console.error(e);
-
+	} catch (error) {
+		console.error(error);
 		return NextResponse.json(
 			{ error: "Internal Server Error" },
 			{ status: 500 },
@@ -126,17 +124,31 @@ export async function PATCH(request: Request) {
 
 		const updateOperation = await request.json();
 
-		if (contributorName) {
-			// Update specific fields within a contributor object
-			const result = await db.collection("bake_content").updateOne(
-				{ _id: new ObjectId(id) },
-				{
-					$set: updateOperation,
-				},
-				{
-					arrayFilters: [{ "elem.contributor": contributorName }],
-				},
+		let result;
+
+		if (updateOperation.$push) {
+			// Handle adding new elements to arrays with $push
+			result = await db
+				.collection("bake_content")
+				.updateOne({ _id: new ObjectId(id) }, updateOperation);
+
+			if (result.matchedCount === 0) {
+				return NextResponse.json({ error: "Item not found" }, { status: 404 });
+			}
+
+			return NextResponse.json(
+				{ message: "Item updated successfully" },
+				{ status: 200 },
 			);
+		} else if (contributorName) {
+			// Handle updates for specific fields within a contributor object
+			result = await db
+				.collection("bake_content")
+				.updateOne(
+					{ _id: new ObjectId(id) },
+					{ $set: updateOperation },
+					{ arrayFilters: [{ "elem.contributor": contributorName }] },
+				);
 
 			if (result.matchedCount === 0) {
 				return NextResponse.json(
@@ -150,13 +162,10 @@ export async function PATCH(request: Request) {
 				{ status: 200 },
 			);
 		} else {
-			// Update the entire document if no specific contributor is targeted
-			const result = await db.collection("bake_content").updateOne(
-				{ _id: new ObjectId(id) },
-				{
-					$set: updateOperation,
-				},
-			);
+			// Default to setting fields if no special operation is specified
+			result = await db
+				.collection("bake_content")
+				.updateOne({ _id: new ObjectId(id) }, { $set: updateOperation });
 
 			if (result.matchedCount === 0) {
 				return NextResponse.json({ error: "Item not found" }, { status: 404 });
@@ -167,8 +176,8 @@ export async function PATCH(request: Request) {
 				{ status: 200 },
 			);
 		}
-	} catch (e) {
-		console.error(e);
+	} catch (error) {
+		console.error(error);
 		return NextResponse.json(
 			{ error: "Internal Server Error" },
 			{ status: 500 },
