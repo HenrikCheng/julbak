@@ -1,9 +1,10 @@
-import IngredientList from "./IngredientList";
+import Jumbotron from "./components/Jumbotron";
+import IngredientList from "./components/IngredientList";
 
 export default function Home() {
 	return (
 		<main className="flex min-h-screen flex-col items-start">
-			<h1>Christmas Bake Ingredients</h1>
+			<Jumbotron />
 			<IngredientList />
 		</main>
 	);

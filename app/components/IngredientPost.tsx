@@ -3,7 +3,7 @@ import { Contributor, Ingredient } from "../api/types";
 import Button from "./Button";
 import Form from "./Form";
 
-type SingleIngredientProps = {
+type IngredientPostProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
 	setError: React.Dispatch<React.SetStateAction<string | null>>;
 	contributor: Contributor;
@@ -11,13 +11,13 @@ type SingleIngredientProps = {
 	ingredient: Ingredient;
 };
 
-const SingleIngredient = ({
+const IngredientPost = ({
 	index,
 	contributor,
 	ingredient,
 	setIngredients,
 	setError,
-}: SingleIngredientProps) => {
+}: IngredientPostProps) => {
 	const [open, setOpen] = useState(false);
 
 	const handleDeleteContributor = async (
@@ -86,10 +86,11 @@ const SingleIngredient = ({
 					setIngredients={setIngredients}
 					setError={setError}
 					ingredientId={ingredient._id}
+					setOpen={setOpen}
 				/>
 			)}
 		</div>
 	);
 };
 
-export default SingleIngredient;
+export default IngredientPost;

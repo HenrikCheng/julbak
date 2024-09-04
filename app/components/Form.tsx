@@ -4,9 +4,15 @@ type FormProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
 	setError: React.Dispatch<React.SetStateAction<string | null>>;
 	ingredientId: string;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
+const Form = ({
+	setIngredients,
+	setError,
+	ingredientId,
+	setOpen,
+}: FormProps) => {
 	const handleCreateContributor = async (
 		ingredientId: string,
 		floating_name: string,
@@ -47,6 +53,7 @@ const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
 						: ingredient,
 				),
 			);
+			setOpen(false);
 		} catch (error) {
 			console.error("Error creating contributor:", error);
 			setError("Failed to create contributor");
