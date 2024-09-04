@@ -40,7 +40,14 @@ export async function POST(request: Request) {
 			);
 		}
 
-		const result = await db.collection("bake_content").insertOne(newItem);
+		const currentDate = new Date().toISOString();
+
+		const itemWithDate = {
+			...newItem,
+			date: currentDate,
+		};
+
+		const result = await db.collection("bake_content").insertOne(itemWithDate);
 		return NextResponse.json(result, { status: 201 });
 	} catch (error) {
 		console.error(error);
@@ -126,7 +133,26 @@ export async function PATCH(request: Request) {
 
 		let result;
 
-		if (updateOperation.$push) {
+		if (contributorName) {
+			// Handle updates for specific fields within a contributor object
+			result = await db.collection("bake_content").updateOne(
+				{ _id: new ObjectId(id) },
+				{ $set: { "contributors.$[elem]": updateOperation } },
+				{ arrayFilters: [{ "elem.contributor": contributorName }] }, // filter for the correct contributor
+			);
+
+			if (result.matchedCount === 0) {
+				return NextResponse.json(
+					{ error: "Item or contributor not found" },
+					{ status: 404 },
+				);
+			}
+
+			return NextResponse.json(
+				{ message: "Contributor updated successfully" },
+				{ status: 200 },
+			);
+		} else if (updateOperation.$push) {
 			// Handle adding new elements to arrays with $push
 			result = await db
 				.collection("bake_content")
@@ -138,27 +164,6 @@ export async function PATCH(request: Request) {
 
 			return NextResponse.json(
 				{ message: "Item updated successfully" },
-				{ status: 200 },
-			);
-		} else if (contributorName) {
-			// Handle updates for specific fields within a contributor object
-			result = await db
-				.collection("bake_content")
-				.updateOne(
-					{ _id: new ObjectId(id) },
-					{ $set: updateOperation },
-					{ arrayFilters: [{ "elem.contributor": contributorName }] },
-				);
-
-			if (result.matchedCount === 0) {
-				return NextResponse.json(
-					{ error: "Item or contributor not found" },
-					{ status: 404 },
-				);
-			}
-
-			return NextResponse.json(
-				{ message: "Contributor updated successfully" },
 				{ status: 200 },
 			);
 		} else {

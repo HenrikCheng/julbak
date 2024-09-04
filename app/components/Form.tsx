@@ -1,122 +1,105 @@
-const Form = () => {
+import { Ingredient } from "../api/utils/types";
+
+type FormProps = {
+	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
+	setError: React.Dispatch<React.SetStateAction<string | null>>;
+	ingredientId: string;
+};
+
+const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
+	const handleCreateContributor = async (ingredientId: string) => {
+		const newContributor = {
+			contributor: "Minna Hautamäki",
+			amount: 2,
+			note: "Olivers mamma",
+		};
+
+		try {
+			const response = await fetch(`/api/christmas?id=${ingredientId}`, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					$push: {
+						contributors: newContributor,
+					},
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(`Failed to create contributor: ${response.statusText}`);
+			}
+
+			// Optionally, you can update the UI here by refetching or updating state
+			setIngredients((prevIngredients) =>
+				prevIngredients.map((ingredient) =>
+					ingredient._id === ingredientId
+						? {
+								...ingredient,
+								contributors: [...ingredient.contributors, newContributor],
+						  }
+						: ingredient,
+				),
+			);
+		} catch (error) {
+			console.error("Error creating contributor:", error);
+			setError("Failed to create contributor");
+		}
+	};
+
 	return (
-		<form className="max-w-md mx-auto">
+		<form
+			className="max-w-md mx-auto"
+			onSubmit={() => handleCreateContributor(ingredientId)}
+		>
 			<div className="relative z-0 w-full mb-5 group">
 				<input
-					type="email"
-					name="floating_email"
-					id="floating_email"
+					type="name"
+					name="floating_name"
+					id="floating_name"
 					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
 				/>
 				<label
-					htmlFor="floating_email"
+					htmlFor="floating_name"
 					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
 				>
-					Email address
+					Namn
 				</label>
 			</div>
 			<div className="relative z-0 w-full mb-5 group">
 				<input
-					type="password"
-					name="floating_password"
-					id="floating_password"
+					type="text"
+					name="floating_notes"
+					id="floating_notes"
 					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
 				/>
 				<label
-					htmlFor="floating_password"
-					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+					htmlFor="floating_notes"
+					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
 				>
-					Password
+					Anteckningar
 				</label>
 			</div>
 			<div className="relative z-0 w-full mb-5 group">
 				<input
-					type="password"
-					name="repeat_password"
-					id="floating_repeat_password"
+					type="number"
+					name="floating_number"
+					id="floating_number"
 					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
 				/>
 				<label
-					htmlFor="floating_repeat_password"
-					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+					htmlFor="floating_number"
+					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
 				>
-					Confirm password
+					Antal
 				</label>
-			</div>
-			<div className="grid md:grid-cols-2 md:gap-6">
-				<div className="relative z-0 w-full mb-5 group">
-					<input
-						type="text"
-						name="floating_first_name"
-						id="floating_first_name"
-						className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-						placeholder=" "
-						required
-					/>
-					<label
-						htmlFor="floating_first_name"
-						className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-					>
-						First name
-					</label>
-				</div>
-				<div className="relative z-0 w-full mb-5 group">
-					<input
-						type="text"
-						name="floating_last_name"
-						id="floating_last_name"
-						className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-						placeholder=" "
-						required
-					/>
-					<label
-						htmlFor="floating_last_name"
-						className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-					>
-						Last name
-					</label>
-				</div>
-			</div>
-			<div className="grid md:grid-cols-2 md:gap-6">
-				<div className="relative z-0 w-full mb-5 group">
-					<input
-						type="tel"
-						pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-						name="floating_phone"
-						id="floating_phone"
-						className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-						placeholder=" "
-						required
-					/>
-					<label
-						htmlFor="floating_phone"
-						className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-					>
-						Phone number (123-456-7890)
-					</label>
-				</div>
-				<div className="relative z-0 w-full mb-5 group">
-					<input
-						type="text"
-						name="floating_company"
-						id="floating_company"
-						className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-						placeholder=" "
-						required
-					/>
-					<label
-						htmlFor="floating_company"
-						className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-					>
-						Company (Ex. Google)
-					</label>
-				</div>
 			</div>
 			<button
 				type="submit"

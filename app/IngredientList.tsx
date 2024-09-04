@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "./components/Button";
 import Skeleton from "./components/Skeleton";
-import Form from "./components/Form";
+import SingleIngredient from "./components/SingleIngredient";
 
 type Contributor = {
 	contributor: string;
@@ -47,6 +47,47 @@ const IngredientList: React.FC = () => {
 
 		fetchData();
 	}, []);
+
+	const handleCreateContributor = async (ingredientId: string) => {
+		const newContributor = {
+			contributor: "Minna Hautamäki",
+			amount: 2,
+			note: "Olivers mamma",
+		};
+
+		try {
+			const response = await fetch(`/api/christmas?id=${ingredientId}`, {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					$push: {
+						contributors: newContributor,
+					},
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(`Failed to create contributor: ${response.statusText}`);
+			}
+
+			// Optionally, you can update the UI here by refetching or updating state
+			setIngredients((prevIngredients) =>
+				prevIngredients.map((ingredient) =>
+					ingredient._id === ingredientId
+						? {
+								...ingredient,
+								contributors: [...ingredient.contributors, newContributor],
+						  }
+						: ingredient,
+				),
+			);
+		} catch (error) {
+			console.error("Error creating contributor:", error);
+			setError("Failed to create contributor");
+		}
+	};
 
 	const handleDeleteContributor = async (
 		ingredientId: string,
@@ -102,7 +143,7 @@ const IngredientList: React.FC = () => {
 
 	return (
 		<div className="flex w-full">
-			<ul>
+			<ul className="min-w-max">
 				{ingredients.map((ingredient) => {
 					return (
 						<li
@@ -123,52 +164,26 @@ const IngredientList: React.FC = () => {
 								</ul>
 								<Button
 									color="blue"
-									onClick={() => console.log("click change")}
+									onClick={() => handleCreateContributor(ingredient._id)}
 								>
 									Jag kan bidra
 								</Button>
 							</div>
 							{ingredient.contributors?.length > 0 &&
 								ingredient.contributors.map((contributor, index) => (
-									<div
+									<SingleIngredient
+										setIngredients={setIngredients}
+										setError={setError}
+										contributor={contributor}
+										index={index}
+										ingredient={ingredient}
 										key={contributor.contributor}
-										className={`p-2 rounded-b-md ${
-											index % 2 === 0 ? "bg-slate-800" : "bg-slate-600"
-										}`}
-									>
-										<p>namn: {contributor.contributor}</p>
-										<p>
-											antal: {contributor.amount.toString()} {ingredient.unit}
-										</p>
-										<p>anteckningar: {contributor.note}</p>
-										<div className="flex justify-between">
-											<Button
-												color="blue"
-												onClick={() => console.log("click change")}
-											>
-												Ändra
-											</Button>
-											<Button
-												color="red"
-												onClick={() =>
-													handleDeleteContributor(
-														ingredient._id,
-														contributor.contributor,
-													)
-												}
-											>
-												Ta bort
-											</Button>
-										</div>
-									</div>
+									/>
 								))}
 						</li>
 					);
 				})}
 			</ul>
-			<div className="flex-auto">
-				<Form />
-			</div>
 		</div>
 	);
 };
