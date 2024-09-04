@@ -7,11 +7,16 @@ type FormProps = {
 };
 
 const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
-	const handleCreateContributor = async (ingredientId: string) => {
+	const handleCreateContributor = async (
+		ingredientId: string,
+		floating_name: string,
+		floating_notes: string,
+		floating_number: number,
+	) => {
 		const newContributor = {
-			contributor: "Minna Hautamäki",
-			amount: 2,
-			note: "Olivers mamma",
+			contributor: floating_name,
+			amount: floating_number,
+			note: floating_notes,
 		};
 
 		try {
@@ -51,7 +56,26 @@ const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
 	return (
 		<form
 			className="max-w-md mx-auto"
-			onSubmit={() => handleCreateContributor(ingredientId)}
+			onSubmit={(e) => {
+				e.preventDefault();
+				const form = e.target as HTMLFormElement;
+				const floating_name = form.floating_name.value;
+				const floating_notes = form.floating_notes.value;
+				const floating_number = Number(form.floating_number.value);
+
+				console.log({
+					name: floating_name,
+					notes: floating_notes,
+					amount: floating_number,
+				});
+
+				handleCreateContributor(
+					ingredientId,
+					floating_name,
+					floating_notes,
+					floating_number,
+				);
+			}}
 		>
 			<div className="relative z-0 w-full mb-5 group">
 				<input
@@ -71,22 +95,6 @@ const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
 			</div>
 			<div className="relative z-0 w-full mb-5 group">
 				<input
-					type="text"
-					name="floating_notes"
-					id="floating_notes"
-					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-					placeholder=" "
-					required
-				/>
-				<label
-					htmlFor="floating_notes"
-					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-				>
-					Anteckningar
-				</label>
-			</div>
-			<div className="relative z-0 w-full mb-5 group">
-				<input
 					type="number"
 					name="floating_number"
 					id="floating_number"
@@ -99,6 +107,22 @@ const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
 					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
 				>
 					Antal
+				</label>
+			</div>
+			<div className="relative z-0 w-full mb-5 group">
+				<input
+					type="text"
+					name="floating_notes"
+					id="floating_notes"
+					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+					placeholder=" "
+					required
+				/>
+				<label
+					htmlFor="floating_notes"
+					className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+				>
+					Anteckningar
 				</label>
 			</div>
 			<button

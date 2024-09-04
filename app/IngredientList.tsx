@@ -96,12 +96,6 @@ const IngredientList: React.FC = () => {
 										ingredientId={ingredient._id}
 									/>
 								)}
-								{/* <Button
-									color="blue"
-									onClick={() => handleCreateContributor(ingredient._id)}
-								>
-									Jag kan bidra
-								</Button> */}
 							</div>
 							{ingredient.contributors?.length > 0 &&
 								ingredient.contributors.map((contributor, index) => (
