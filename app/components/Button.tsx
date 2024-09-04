@@ -16,7 +16,7 @@ const Button = ({ children, color, onClick }: ButtonProps) => {
 	return (
 		<button
 			onClick={onClick}
-			className={`text-white ${colorClasses[color]} focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none`}
+			className={`text-white ${colorClasses[color]} focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 focus:outline-none`}
 		>
 			{children}
 		</button>

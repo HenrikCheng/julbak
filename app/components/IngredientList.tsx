@@ -49,7 +49,7 @@ const IngredientList: React.FC = () => {
 	}
 
 	return (
-		<div className="flex w-full">
+		<div className="flex w-full" id="Ingredients">
 			<ul className="min-w-max">
 				{ingredients.map((ingredient) => {
 					return (

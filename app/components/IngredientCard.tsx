@@ -23,25 +23,25 @@ const IngredientCard = ({
 				<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 					{ingredient.name}
 				</h5>
-				<div className="font-normal text-gray-700 dark:text-gray-400">
+				<div className="font-normal text-gray-700 dark:text-gray-400 mb-2">
 					<li>
 						Desired amount: {ingredient.desired_amount} {ingredient.unit}
 					</li>
 					<li>
 						Current amount: {ingredient.current_amount} {ingredient.unit}
 					</li>
-					<Button color="blue" onClick={() => setOpen(!open)}>
-						{open ? "Stäng" : "Jag kan bidra"}
-					</Button>
-					{open && (
-						<Form
-							setIngredients={setIngredients}
-							setError={setError}
-							ingredientId={ingredient._id}
-							setOpen={setOpen}
-						/>
-					)}
 				</div>
+				<Button color="blue" onClick={() => setOpen(!open)}>
+					{open ? "Stäng" : "Jag kan bidra"}
+				</Button>
+				{open && (
+					<Form
+						setIngredients={setIngredients}
+						setError={setError}
+						ingredientId={ingredient._id}
+						setOpen={setOpen}
+					/>
+				)}
 
 				{ingredient.contributors?.length > 0 &&
 					ingredient.contributors.map(
