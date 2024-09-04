@@ -31,7 +31,7 @@ const Form = ({ setIngredients, setError, ingredientId }: FormProps) => {
 				throw new Error(`Failed to create contributor: ${response.statusText}`);
 			}
 
-			// Optionally, you can update the UI here by refetching or updating state
+			// Update UI state
 			setIngredients((prevIngredients) =>
 				prevIngredients.map((ingredient) =>
 					ingredient._id === ingredientId

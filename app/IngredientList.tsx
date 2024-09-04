@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Button from "./components/Button";
 import Skeleton from "./components/Skeleton";
 import SingleIngredient from "./components/SingleIngredient";
+import Form from "./components/Form";
 
 type Contributor = {
 	contributor: string;
@@ -22,8 +23,9 @@ type Ingredient = {
 
 const IngredientList: React.FC = () => {
 	const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
+	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -47,84 +49,6 @@ const IngredientList: React.FC = () => {
 
 		fetchData();
 	}, []);
-
-	const handleCreateContributor = async (ingredientId: string) => {
-		const newContributor = {
-			contributor: "Minna Hautamäki",
-			amount: 2,
-			note: "Olivers mamma",
-		};
-
-		try {
-			const response = await fetch(`/api/christmas?id=${ingredientId}`, {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					$push: {
-						contributors: newContributor,
-					},
-				}),
-			});
-
-			if (!response.ok) {
-				throw new Error(`Failed to create contributor: ${response.statusText}`);
-			}
-
-			// Optionally, you can update the UI here by refetching or updating state
-			setIngredients((prevIngredients) =>
-				prevIngredients.map((ingredient) =>
-					ingredient._id === ingredientId
-						? {
-								...ingredient,
-								contributors: [...ingredient.contributors, newContributor],
-						  }
-						: ingredient,
-				),
-			);
-		} catch (error) {
-			console.error("Error creating contributor:", error);
-			setError("Failed to create contributor");
-		}
-	};
-
-	const handleDeleteContributor = async (
-		ingredientId: string,
-		contributorName: string,
-	) => {
-		try {
-			const response = await fetch(
-				`/api/christmas?id=${ingredientId}&contributorName=${encodeURIComponent(
-					contributorName,
-				)}`,
-				{
-					method: "DELETE",
-				},
-			);
-
-			if (!response.ok) {
-				throw new Error(`Failed to delete contributor: ${response.statusText}`);
-			}
-
-			// Update state to remove the deleted contributor from the UI
-			setIngredients((prevIngredients) =>
-				prevIngredients.map((ingredient) =>
-					ingredient._id === ingredientId
-						? {
-								...ingredient,
-								contributors: ingredient.contributors.filter(
-									(contributor) => contributor.contributor !== contributorName,
-								),
-						  }
-						: ingredient,
-				),
-			);
-		} catch (error) {
-			console.error("Error deleting contributor:", error);
-			setError("Failed to delete contributor");
-		}
-	};
 
 	if (loading) {
 		return (
@@ -162,12 +86,22 @@ const IngredientList: React.FC = () => {
 										{ingredient.unit}
 									</li>
 								</ul>
-								<Button
+								<Button color="blue" onClick={() => setOpen(!open)}>
+									Jag kan bidra
+								</Button>
+								{open && (
+									<Form
+										setIngredients={setIngredients}
+										setError={setError}
+										ingredientId={ingredient._id}
+									/>
+								)}
+								{/* <Button
 									color="blue"
 									onClick={() => handleCreateContributor(ingredient._id)}
 								>
 									Jag kan bidra
-								</Button>
+								</Button> */}
 							</div>
 							{ingredient.contributors?.length > 0 &&
 								ingredient.contributors.map((contributor, index) => (
