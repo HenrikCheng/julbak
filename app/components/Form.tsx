@@ -1,4 +1,4 @@
-import { Ingredient } from "../api/utils/types";
+import { Ingredient } from "../api/types";
 
 type FormProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;

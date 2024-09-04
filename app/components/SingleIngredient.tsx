@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Ingredient } from "../api/utils/types";
+import { Contributor, Ingredient } from "../api/types";
 import Button from "./Button";
 import Form from "./Form";
 
 type SingleIngredientProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
 	setError: React.Dispatch<React.SetStateAction<string | null>>;
-	contributor: any;
+	contributor: Contributor;
 	index: number;
-	ingredient: any;
+	ingredient: Ingredient;
 };
 
 const SingleIngredient = ({

@@ -5,21 +5,7 @@ import Button from "./components/Button";
 import Skeleton from "./components/Skeleton";
 import SingleIngredient from "./components/SingleIngredient";
 import Form from "./components/Form";
-
-type Contributor = {
-	contributor: string;
-	amount: Number;
-	note?: string;
-};
-
-type Ingredient = {
-	_id: string;
-	name: string;
-	desired_amount: number;
-	current_amount: number;
-	unit: string;
-	contributors: Contributor[];
-};
+import { Ingredient } from "./api/types";
 
 const IngredientList: React.FC = () => {
 	const [ingredients, setIngredients] = useState<Ingredient[]>([]);
