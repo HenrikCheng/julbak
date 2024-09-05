@@ -19,6 +19,7 @@ const Form = ({
 	const [floatingName, setFloatingName] = useState("");
 	const [floatingNotes, setFloatingNotes] = useState("");
 	const [floatingNumber, setFloatingNumber] = useState(0);
+	const currentDate = new Date().toISOString();
 
 	// Set initial values if contributor is provided
 	useEffect(() => {
@@ -59,6 +60,7 @@ const Form = ({
 							contributor: floatingName,
 							amount: floatingNumber,
 							note: floatingNotes,
+							date: currentDate,
 						}),
 					},
 				);

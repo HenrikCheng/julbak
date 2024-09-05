@@ -59,7 +59,7 @@ const IngredientPost = ({
 
 	return (
 		<div
-			className={`p-2 rounded-b-md ${
+			className={`my-2 p-2 rounded-b-md ${
 				index % 2 === 0 ? "bg-slate-600" : "bg-slate-500"
 			}`}
 		>
