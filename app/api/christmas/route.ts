@@ -153,10 +153,22 @@ export async function PATCH(request: Request) {
 				{ status: 200 },
 			);
 		} else if (updateOperation.$push) {
+			// Add the current date to the contributor object before pushing
+			const currentDate = new Date().toISOString();
+			const updatedPushOperation = {
+				...updateOperation,
+				$push: {
+					contributors: {
+						...updateOperation.$push.contributors,
+						date: currentDate,
+					},
+				},
+			};
+
 			// Handle adding new elements to arrays with $push
 			result = await db
 				.collection("bake_content")
-				.updateOne({ _id: new ObjectId(id) }, updateOperation);
+				.updateOne({ _id: new ObjectId(id) }, updatedPushOperation);
 
 			if (result.matchedCount === 0) {
 				return NextResponse.json({ error: "Item not found" }, { status: 404 });

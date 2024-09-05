@@ -19,10 +19,13 @@ const Form = ({
 		floating_notes: string,
 		floating_number: number,
 	) => {
+		const currentDate = new Date().toISOString();
+
 		const newContributor = {
 			contributor: floating_name,
 			amount: floating_number,
 			note: floating_notes,
+			date: currentDate,
 		};
 
 		try {

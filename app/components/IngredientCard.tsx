@@ -16,6 +16,10 @@ const IngredientCard = ({
 	setError,
 }: IngredientCardProps) => {
 	const [open, setOpen] = useState(false);
+	let sum = ingredient.contributors.reduce(
+		(total, contributor) => total + contributor.amount,
+		0,
+	);
 
 	return (
 		<>
@@ -23,14 +27,14 @@ const IngredientCard = ({
 				<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 					{ingredient.name}
 				</h5>
-				<div className="font-normal text-gray-700 dark:text-gray-400 mb-2">
+				<ul className="font-normal text-gray-700 dark:text-gray-400 mb-2">
 					<li>
 						Desired amount: {ingredient.desired_amount} {ingredient.unit}
 					</li>
 					<li>
-						Current amount: {ingredient.current_amount} {ingredient.unit}
+						Current amount: {sum} {ingredient.unit}
 					</li>
-				</div>
+				</ul>
 				<Button color="blue" onClick={() => setOpen(!open)}>
 					{open ? "Stäng" : "Jag kan bidra"}
 				</Button>
@@ -52,7 +56,7 @@ const IngredientCard = ({
 								contributor={contributor}
 								index={index}
 								ingredient={ingredient}
-								key={contributor.contributor}
+								key={`${contributor.contributor}_${contributor.date}`}
 							/>
 						),
 					)}

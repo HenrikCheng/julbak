@@ -1,7 +1,8 @@
 export type Contributor = {
 	contributor: string;
-	amount: Number;
+	amount: number;
 	note?: string;
+	date: string;
 };
 
 export type Ingredient = {
