@@ -87,6 +87,7 @@ const IngredientPost = ({
 					setError={setError}
 					ingredientId={ingredient._id}
 					setOpen={setOpen}
+					contributor={contributor}
 				/>
 			)}
 		</div>

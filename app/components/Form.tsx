@@ -1,10 +1,12 @@
-import { Ingredient } from "../api/types";
+import { useState, useEffect } from "react";
+import { Contributor, Ingredient } from "../api/types";
 
 type FormProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
 	setError: React.Dispatch<React.SetStateAction<string | null>>;
 	ingredientId: string;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	contributor?: Contributor;
 };
 
 const Form = ({
@@ -12,19 +14,33 @@ const Form = ({
 	setError,
 	ingredientId,
 	setOpen,
+	contributor,
 }: FormProps) => {
+	const [floatingName, setFloatingName] = useState("");
+	const [floatingNotes, setFloatingNotes] = useState("");
+	const [floatingNumber, setFloatingNumber] = useState(0);
+
+	// Set initial values if contributor is provided
+	useEffect(() => {
+		if (contributor) {
+			setFloatingName(contributor.contributor || "");
+			setFloatingNotes(contributor.note || "");
+			setFloatingNumber(contributor.amount || 0);
+		}
+	}, [contributor]);
+
 	const handleCreateContributor = async (
 		ingredientId: string,
-		floating_name: string,
-		floating_notes: string,
-		floating_number: number,
+		floatingName: string,
+		floatingNotes: string,
+		floatingNumber: number,
 	) => {
 		const currentDate = new Date().toISOString();
 
 		const newContributor = {
-			contributor: floating_name,
-			amount: floating_number,
-			note: floating_notes,
+			contributor: floatingName,
+			amount: floatingNumber,
+			note: floatingNotes,
 			date: currentDate,
 		};
 
@@ -68,22 +84,11 @@ const Form = ({
 			className="max-w-md mx-auto"
 			onSubmit={(e) => {
 				e.preventDefault();
-				const form = e.target as HTMLFormElement;
-				const floating_name = form.floating_name.value;
-				const floating_notes = form.floating_notes.value;
-				const floating_number = Number(form.floating_number.value);
-
-				console.log({
-					name: floating_name,
-					notes: floating_notes,
-					amount: floating_number,
-				});
-
 				handleCreateContributor(
 					ingredientId,
-					floating_name,
-					floating_notes,
-					floating_number,
+					floatingName,
+					floatingNotes,
+					floatingNumber,
 				);
 			}}
 		>
@@ -95,6 +100,8 @@ const Form = ({
 					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
+					value={floatingName}
+					onChange={(e) => setFloatingName(e.target.value)}
 				/>
 				<label
 					htmlFor="floating_name"
@@ -111,6 +118,8 @@ const Form = ({
 					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
+					value={floatingNumber}
+					onChange={(e) => setFloatingNumber(Number(e.target.value))}
 				/>
 				<label
 					htmlFor="floating_number"
@@ -127,6 +136,8 @@ const Form = ({
 					className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
+					value={floatingNotes}
+					onChange={(e) => setFloatingNotes(e.target.value)}
 				/>
 				<label
 					htmlFor="floating_notes"
