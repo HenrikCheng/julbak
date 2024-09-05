@@ -61,17 +61,34 @@ const Form = ({
 				throw new Error(`Failed to create contributor: ${response.statusText}`);
 			}
 
-			// Update UI state
-			setIngredients((prevIngredients) =>
-				prevIngredients.map((ingredient) =>
-					ingredient._id === ingredientId
-						? {
-								...ingredient,
-								contributors: [...ingredient.contributors, newContributor],
-						  }
-						: ingredient,
-				),
-			);
+			if (contributor) {
+				// Update existing contributor
+				setIngredients((prevIngredients) =>
+					prevIngredients.map((ingredient) =>
+						ingredient._id === ingredientId
+							? {
+									...ingredient,
+									contributors: ingredient.contributors.map((item) =>
+										item.contributor === contributor.contributor
+											? newContributor // You should use newContributor here to update the contributor
+											: item,
+									),
+							  }
+							: ingredient,
+					),
+				);
+			} else {
+				setIngredients((prevIngredients) =>
+					prevIngredients.map((ingredient) =>
+						ingredient._id === ingredientId
+							? {
+									...ingredient,
+									contributors: [...ingredient.contributors, newContributor],
+							  }
+							: ingredient,
+					),
+				);
+			}
 			setOpen(false);
 		} catch (error) {
 			console.error("Error creating contributor:", error);
