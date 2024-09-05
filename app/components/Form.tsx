@@ -45,24 +45,31 @@ const Form = ({
 		};
 
 		try {
-			const response = await fetch(`/api/christmas?id=${ingredientId}`, {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					$push: {
-						contributors: newContributor,
-					},
-				}),
-			});
-
-			if (!response.ok) {
-				throw new Error(`Failed to create contributor: ${response.statusText}`);
-			}
-
+			// If contributor exists, update it
 			if (contributor) {
 				// Update existing contributor
+				const response = await fetch(
+					`/api/christmas?id=${ingredientId}&contributorName=${contributor.contributor}`,
+					{
+						method: "PATCH",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							contributor: floatingName,
+							amount: floatingNumber,
+							note: floatingNotes,
+						}),
+					},
+				);
+
+				if (!response.ok) {
+					throw new Error(
+						`Failed to update contributor: ${response.statusText}`,
+					);
+				}
+
+				// Update local UI state
 				setIngredients((prevIngredients) =>
 					prevIngredients.map((ingredient) =>
 						ingredient._id === ingredientId
@@ -70,7 +77,7 @@ const Form = ({
 									...ingredient,
 									contributors: ingredient.contributors.map((item) =>
 										item.contributor === contributor.contributor
-											? newContributor // You should use newContributor here to update the contributor
+											? newContributor // replace with the updated data
 											: item,
 									),
 							  }
@@ -78,6 +85,26 @@ const Form = ({
 					),
 				);
 			} else {
+				// Add new contributor
+				const response = await fetch(`/api/christmas?id=${ingredientId}`, {
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						$push: {
+							contributors: newContributor,
+						},
+					}),
+				});
+
+				if (!response.ok) {
+					throw new Error(
+						`Failed to create contributor: ${response.statusText}`,
+					);
+				}
+
+				// Update local UI state for new contributor
 				setIngredients((prevIngredients) =>
 					prevIngredients.map((ingredient) =>
 						ingredient._id === ingredientId
@@ -89,10 +116,11 @@ const Form = ({
 					),
 				);
 			}
+
 			setOpen(false);
 		} catch (error) {
-			console.error("Error creating contributor:", error);
-			setError("Failed to create contributor");
+			console.error("Error creating/updating contributor:", error);
+			setError("Failed to create or update contributor");
 		}
 	};
 
