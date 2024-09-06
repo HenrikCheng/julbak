@@ -5,7 +5,7 @@ import TimeSlotCalendar from "./components/TimeSlotCalendar";
 
 export default function Home() {
 	return (
-		<main className="flex min-h-screen flex-col items-start">
+		<main className="flex min-h-screen flex-col items-center">
 			<Jumbotron />
 			<div className="flex flex-row flex-wrap">
 				<IngredientList />
