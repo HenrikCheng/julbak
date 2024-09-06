@@ -72,7 +72,7 @@ export async function DELETE(request: Request) {
 		}
 
 		let result;
-		if (contributorName) {
+		if (contributorName && contributorName.length > 0) {
 			// Delete a specific contributor from an ingredient
 			result = await db
 				.collection("bake_content")
