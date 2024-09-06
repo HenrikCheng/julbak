@@ -49,20 +49,18 @@ const IngredientList: React.FC = () => {
 	}
 
 	return (
-		<div className="flex w-full" id="Ingredients">
-			<ul className="min-w-max">
-				{ingredients.map((ingredient) => {
-					return (
-						<IngredientCard
-							ingredient={ingredient}
-							setIngredients={setIngredients}
-							setError={setError}
-							key={ingredient._id}
-						/>
-					);
-				})}
-			</ul>
-		</div>
+		<ul id="Ingredients">
+			{ingredients.map((ingredient) => {
+				return (
+					<IngredientCard
+						ingredient={ingredient}
+						setIngredients={setIngredients}
+						setError={setError}
+						key={ingredient._id}
+					/>
+				);
+			})}
+		</ul>
 	);
 };
 

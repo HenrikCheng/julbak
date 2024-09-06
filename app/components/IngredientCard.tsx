@@ -24,7 +24,7 @@ const IngredientCard = ({
 
 	return (
 		<li
-			className={`m-4 block max-w-sm p-6 bg-white border rounded-lg shadow dark:bg-gray-800 ${
+			className={`m-4 block max-w-md p-6 bg-white border rounded-lg shadow dark:bg-gray-800 ${
 				isCompleted
 					? "border-green-500 dark:border-green-700"
 					: "border-red-200 dark:border-red-700"
@@ -42,10 +42,10 @@ const IngredientCard = ({
 			</h5>
 			<ul className="font-normal text-gray-700 dark:text-gray-400 mb-2">
 				<li>
-					Desired amount: {ingredient.desired_amount} {ingredient.unit}
+					Önskad mängd: {ingredient.desired_amount} {ingredient.unit}
 				</li>
 				<li>
-					Current amount: {sum} {ingredient.unit}{" "}
+					Nuvarande mängd: {sum} {ingredient.unit}{" "}
 				</li>
 			</ul>
 			<Button color="blue" onClick={() => setOpen(!open)}>

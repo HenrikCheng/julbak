@@ -22,12 +22,12 @@ const IngredientPost = ({
 
 	const handleDeleteContributor = async (
 		ingredientId: string,
-		contributorName: string,
+		contributorDate: string, // Use date instead of name
 	) => {
 		try {
 			const response = await fetch(
-				`/api/christmas?id=${ingredientId}&contributorName=${encodeURIComponent(
-					contributorName,
+				`/api/christmas?id=${ingredientId}&contributorDate=${encodeURIComponent(
+					contributorDate,
 				)}`,
 				{
 					method: "DELETE",
@@ -45,7 +45,7 @@ const IngredientPost = ({
 						? {
 								...ingredient,
 								contributors: ingredient.contributors.filter(
-									(contributor) => contributor.contributor !== contributorName,
+									(contributor) => contributor.date !== contributorDate, // Match by date
 								),
 						  }
 						: ingredient,
@@ -60,35 +60,37 @@ const IngredientPost = ({
 	return (
 		<div
 			className={`my-2 p-2 rounded-b-md ${
-				index % 2 === 0 ? "bg-slate-600" : "bg-slate-500"
+				index % 2 === 0 ? "bg-slate-200 dark:bg-slate-700" : "bg-transparent"
 			}`}
 		>
-			<p>namn: {contributor.contributor}</p>
 			<p>
-				antal: {contributor.amount?.toString() || 0} {ingredient.unit}
+				{contributor.contributor}, {contributor.amount?.toString() || 0}{" "}
+				{ingredient.unit}.
 			</p>
-			<p>anteckningar: {contributor.note}</p>
+			{contributor.note && <p>anteckningar: {contributor.note}</p>}
 			<div className="flex justify-between">
 				<Button color="blue" onClick={() => setOpen(!open)}>
-					Ändra
+					{open ? "Stäng" : "Ändra"}
 				</Button>
 				<Button
 					color="red"
 					onClick={() =>
-						handleDeleteContributor(ingredient._id, contributor.contributor)
+						handleDeleteContributor(ingredient._id, contributor.date)
 					}
 				>
 					Ta bort
 				</Button>
 			</div>
 			{open && (
-				<Form
-					setIngredients={setIngredients}
-					setError={setError}
-					ingredientId={ingredient._id}
-					setOpen={setOpen}
-					contributor={contributor}
-				/>
+				<div className="mt-10">
+					<Form
+						setIngredients={setIngredients}
+						setError={setError}
+						ingredientId={ingredient._id}
+						setOpen={setOpen}
+						contributor={contributor}
+					/>
+				</div>
 			)}
 		</div>
 	);
