@@ -12,4 +12,5 @@ export type Ingredient = {
 	current_amount: number;
 	unit: string;
 	contributors: Contributor[];
+	date: string;
 };

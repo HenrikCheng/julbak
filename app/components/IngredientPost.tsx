@@ -56,6 +56,7 @@ const IngredientPost = ({
 			setError("Failed to delete contributor");
 		}
 	};
+	const localeDate = new Date(contributor.date).toLocaleString("sv-SE");
 
 	return (
 		<div
@@ -63,9 +64,12 @@ const IngredientPost = ({
 				index % 2 === 0 ? "bg-slate-200 dark:bg-slate-700" : "bg-transparent"
 			}`}
 		>
-			<p>
+			<p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
 				{contributor.contributor}, {contributor.amount?.toString() || 0}{" "}
 				{ingredient.unit}.
+			</p>
+			<p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
+				{localeDate}
 			</p>
 			{contributor.note && <p>anteckningar: {contributor.note}</p>}
 			<div className="flex justify-between">

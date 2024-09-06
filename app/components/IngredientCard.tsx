@@ -40,14 +40,9 @@ const IngredientCard = ({
 				</span>
 				{isCompleted && <span className="ml-2 text-green-500">Klar</span>}
 			</h5>
-			<ul className="font-normal text-gray-700 dark:text-gray-400 mb-2">
-				<li>
-					Önskad mängd: {ingredient.desired_amount} {ingredient.unit}
-				</li>
-				<li>
-					Nuvarande mängd: {sum} {ingredient.unit}{" "}
-				</li>
-			</ul>
+			<p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
+				Insamlat: {sum} av {ingredient.desired_amount} {ingredient.unit}
+			</p>
 			<Button color="blue" onClick={() => setOpen(!open)}>
 				{open ? "Stäng" : "Jag kan bidra"}
 			</Button>
