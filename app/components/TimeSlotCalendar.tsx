@@ -28,14 +28,11 @@ const TimeSlotCalendar = () => {
 											: "Bakning"}
 									</span>
 								</div>
-								<div className="flex items-center justify-end gap-2">
-									<Button
-										color="blue"
-										onClick={() => console.log("button click")}
-									>
+								<form className="flex items-center justify-end gap-2">
+									<Button color="blue" type="submit">
 										Jag kan hjälpa
 									</Button>
-								</div>
+								</form>
 							</div>
 						</div>
 					))}

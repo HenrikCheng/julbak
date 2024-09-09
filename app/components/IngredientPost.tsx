@@ -77,7 +77,7 @@ const IngredientPost = ({
 					{open ? "Stäng" : "Ändra"}
 				</Button>
 				<Button
-					color="red"
+					color="transparent"
 					onClick={() =>
 						handleDeleteContributor(ingredient._id, contributor.date)
 					}
