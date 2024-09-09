@@ -65,20 +65,20 @@ export async function DELETE(request: Request) {
 
 		const url = new URL(request.url);
 		const itemId = url.searchParams.get("id");
-		const contributorName = url.searchParams.get("contributorName");
+		const contributorDate = url.searchParams.get("contributorDate");
 
 		if (!itemId) {
 			return NextResponse.json({ error: "Missing item ID" }, { status: 400 });
 		}
 
 		let result;
-		if (contributorName && contributorName.length > 0) {
-			// Delete a specific contributor from an ingredient
+		if (contributorDate && contributorDate.length > 0) {
+			// Delete a specific contributor from an ingredient based on date
 			result = await db
 				.collection("bake_content")
 				.updateOne(
 					{ _id: new ObjectId(itemId) },
-					{ $pull: { contributors: { contributor: contributorName } as any } },
+					{ $pull: { contributors: { date: contributorDate } as any } },
 				);
 
 			if (result.modifiedCount === 0) {

@@ -22,7 +22,7 @@ const IngredientPost = ({
 
 	const handleDeleteContributor = async (
 		ingredientId: string,
-		contributorDate: string, // Use date instead of name
+		contributorDate: string,
 	) => {
 		try {
 			const response = await fetch(
