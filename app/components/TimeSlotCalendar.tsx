@@ -24,18 +24,38 @@ const TimeSlotDay = () => {
 							</span>
 						</div>
 						<form className="flex items-center justify-end gap-2">
-							<input
-								type="text"
-								id={`Participant1-${index}`}
-								className="bg-gray-50 mb-5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								placeholder="deltagare 1"
-							/>
-							<input
-								type="text"
-								id={`Participant2-${index}`}
-								className="bg-gray-50 mb-5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								placeholder="deltagare 2"
-							/>
+							<div className="relative z-0 w-full mb-5 group">
+								<input
+									type="text"
+									name="floating_participant_1"
+									id="floating_participant_1"
+									className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+									placeholder=" "
+									required
+								/>
+								<label
+									htmlFor="floating_participant_1"
+									className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>
+									Deltagare 1
+								</label>
+							</div>
+							<div className="relative z-0 w-full mb-5 group">
+								<input
+									type="text"
+									name="floating_participant_2"
+									id="floating_participant_2"
+									className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+									placeholder=" "
+									required
+								/>
+								<label
+									htmlFor="floating_participant_2"
+									className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>
+									Deltagare 2
+								</label>
+							</div>
 						</form>
 					</div>
 				</div>
