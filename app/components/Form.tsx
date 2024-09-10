@@ -6,6 +6,7 @@ type FormProps = {
 	setError: React.Dispatch<React.SetStateAction<string | null>>;
 	ingredientId: string;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	buttonText: string;
 	contributor?: Contributor;
 };
 
@@ -15,6 +16,7 @@ const Form = ({
 	ingredientId,
 	setOpen,
 	contributor,
+	buttonText,
 }: FormProps) => {
 	const [floatingName, setFloatingName] = useState("");
 	const [floatingNotes, setFloatingNotes] = useState("");
@@ -35,13 +37,13 @@ const Form = ({
 		floatingNotes: string,
 		floatingNumber: number,
 	) => {
-		const currentDate = new Date().toISOString(); // Generate a unique date string
+		const currentDate = new Date().toISOString();
 
 		const newContributor = {
 			contributor: floatingName,
 			amount: floatingNumber,
 			note: floatingNotes,
-			date: currentDate, // Use the date as a unique identifier
+			date: currentDate,
 		};
 
 		try {
@@ -193,7 +195,7 @@ const Form = ({
 				type="submit"
 				className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 			>
-				Skicka in/Uppdatera
+				{buttonText}
 			</button>
 		</form>
 	);

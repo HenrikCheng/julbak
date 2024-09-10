@@ -52,6 +52,7 @@ const IngredientCard = ({
 					setError={setError}
 					ingredientId={ingredient._id}
 					setOpen={setOpen}
+					buttonText="Skicka in"
 				/>
 			)}
 
