@@ -71,7 +71,9 @@ const IngredientPost = ({
 			<p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
 				{localeDate}
 			</p>
-			{contributor.note && <p>anteckningar: {contributor.note}</p>}
+			{contributor.note && (
+				<p className="text-white">Anteckningar: {contributor.note}</p>
+			)}
 			<div className="flex justify-between">
 				<Button color="blue" onClick={() => setOpen(!open)}>
 					{open ? "Stäng" : "Ändra"}
