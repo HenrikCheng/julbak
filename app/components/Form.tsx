@@ -109,6 +109,14 @@ const Form = ({
 				);
 			}
 
+			// Refetch ingredients after creation
+			const updatedIngredientsResponse = await fetch("/api/christmas");
+			if (updatedIngredientsResponse.ok) {
+				const updatedIngredients = await updatedIngredientsResponse.json();
+				setIngredients(updatedIngredients);
+			} else {
+				console.error("Failed to refetch ingredients");
+			}
 			setOpen(false);
 		} catch (error) {
 			console.error("Error creating/updating contributor:", error);
