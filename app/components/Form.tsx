@@ -16,6 +16,7 @@ const Form = ({
 	setOpen,
 	contributor,
 }: FormProps) => {
+	console.log("🚀 ~ contributor:", contributor);
 	const [floatingName, setFloatingName] = useState("");
 	const [floatingNotes, setFloatingNotes] = useState("");
 	const [floatingNumber, setFloatingNumber] = useState(0);
@@ -35,32 +36,26 @@ const Form = ({
 		floatingNotes: string,
 		floatingNumber: number,
 	) => {
-		const currentDate = new Date().toISOString();
+		const currentDate = new Date().toISOString(); // Generate a unique date string
 
 		const newContributor = {
 			contributor: floatingName,
 			amount: floatingNumber,
 			note: floatingNotes,
-			date: currentDate,
+			date: currentDate, // Use the date as a unique identifier
 		};
 
 		try {
-			// If contributor exists, update it
 			if (contributor) {
 				// Update existing contributor
 				const response = await fetch(
-					`/api/christmas?id=${ingredientId}&contributorName=${contributor.contributor}`,
+					`/api/christmas?id=${ingredientId}&contributorDate=${contributor.date}`,
 					{
 						method: "PATCH",
 						headers: {
 							"Content-Type": "application/json",
 						},
-						body: JSON.stringify({
-							contributor: floatingName,
-							amount: floatingNumber,
-							note: floatingNotes,
-							date: currentDate,
-						}),
+						body: JSON.stringify(newContributor), // Update with the new contributor data
 					},
 				);
 
@@ -70,16 +65,13 @@ const Form = ({
 					);
 				}
 
-				// Update local UI state
 				setIngredients((prevIngredients) =>
 					prevIngredients.map((ingredient) =>
 						ingredient._id === ingredientId
 							? {
 									...ingredient,
 									contributors: ingredient.contributors.map((item) =>
-										item.contributor === contributor.contributor
-											? newContributor // replace with the updated data
-											: item,
+										item.date === contributor.date ? newContributor : item,
 									),
 							  }
 							: ingredient,
@@ -105,7 +97,6 @@ const Form = ({
 					);
 				}
 
-				// Update local UI state for new contributor
 				setIngredients((prevIngredients) =>
 					prevIngredients.map((ingredient) =>
 						ingredient._id === ingredientId

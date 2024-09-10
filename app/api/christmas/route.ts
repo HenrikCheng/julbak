@@ -123,7 +123,7 @@ export async function PATCH(request: Request) {
 
 		const url = new URL(request.url);
 		const id = url.searchParams.get("id");
-		const contributorName = url.searchParams.get("contributorName");
+		const contributorDate = url.searchParams.get("contributorDate");
 
 		if (!id) {
 			return NextResponse.json({ error: "Missing item ID" }, { status: 400 });
@@ -133,12 +133,11 @@ export async function PATCH(request: Request) {
 
 		let result;
 
-		if (contributorName) {
-			// Handle updates for specific fields within a contributor object
+		if (contributorDate) {
+			// Handle updates for a specific contributor identified by date
 			result = await db.collection("bake_content").updateOne(
-				{ _id: new ObjectId(id) },
-				{ $set: { "contributors.$[elem]": updateOperation } },
-				{ arrayFilters: [{ "elem.contributor": contributorName }] }, // filter for the correct contributor
+				{ _id: new ObjectId(id), "contributors.date": contributorDate },
+				{ $set: { "contributors.$": updateOperation } }, // Update the specific contributor
 			);
 
 			if (result.matchedCount === 0) {
@@ -153,7 +152,7 @@ export async function PATCH(request: Request) {
 				{ status: 200 },
 			);
 		} else if (updateOperation.$push) {
-			// Add the current date to the contributor object before pushing
+			// Add a new contributor
 			const currentDate = new Date().toISOString();
 			const updatedPushOperation = {
 				...updateOperation,
@@ -165,7 +164,6 @@ export async function PATCH(request: Request) {
 				},
 			};
 
-			// Handle adding new elements to arrays with $push
 			result = await db
 				.collection("bake_content")
 				.updateOne({ _id: new ObjectId(id) }, updatedPushOperation);
