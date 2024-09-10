@@ -16,7 +16,6 @@ const Form = ({
 	setOpen,
 	contributor,
 }: FormProps) => {
-	console.log("🚀 ~ contributor:", contributor);
 	const [floatingName, setFloatingName] = useState("");
 	const [floatingNotes, setFloatingNotes] = useState("");
 	const [floatingNumber, setFloatingNumber] = useState(0);
