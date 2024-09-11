@@ -35,7 +35,7 @@ const IngredientList: React.FC = () => {
 
 	if (loading) {
 		return (
-			<div className="grid grid-flow-row grid-cols-1 gap-8">
+			<div className="grid grid-flow-row grid-cols-1 gap-2">
 				<Skeleton />
 				<Skeleton />
 				<Skeleton />

@@ -1,12 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { timeslots } from "../api/constants/timeslots";
+import { TIME_SLOTS } from "../api/constants/timeslots";
 
 type Timeslot = {
 	duration: string;
 	label: string;
 	startTime: string;
+};
+
+const TimeSlotCalendar = () => {
+	return (
+		<div className="grid grid-cols-2 gap-8 max-w-4xl mx-auto p-6 sm:p-8 md:p-10 flex-shrink-0">
+			<div className="space-y-4">
+				<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
+				<TimeSlotDay />
+			</div>
+			<div className="space-y-4">
+				<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
+				<TimeSlotDay />
+			</div>
+		</div>
+	);
 };
 
 const TimeSlotDay = () => {
@@ -39,7 +54,8 @@ const TimeSlotDay = () => {
 
 	return (
 		<div className="grid grid-cols-1 gap-2">
-			{timeslots.map((slot) => (
+			{JSON.stringify(calendar, null, 2)}
+			{TIME_SLOTS.map((slot) => (
 				<div key={`${slot.duration}_${slot.label}`}>
 					<div className="grid gap-4">
 						<div className="flex flex-col gap-1">
@@ -85,21 +101,6 @@ const TimeSlotDay = () => {
 					</div>
 				</div>
 			))}
-		</div>
-	);
-};
-
-const TimeSlotCalendar = () => {
-	return (
-		<div className="grid grid-cols-2 gap-8 max-w-4xl mx-auto p-6 sm:p-8 md:p-10 flex-shrink-0">
-			<div className="space-y-4">
-				<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
-				<TimeSlotDay />
-			</div>
-			<div className="space-y-4">
-				<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
-				<TimeSlotDay />
-			</div>
 		</div>
 	);
 };
