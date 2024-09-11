@@ -1,4 +1,4 @@
-export const timeslots = [
+export const TIME_SLOTS = [
 	{
 		duration: "09:00 - 10:00",
 		label: "Förberedelser",
