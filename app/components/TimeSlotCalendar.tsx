@@ -1,24 +1,49 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { timeslots } from "../api/constants/timeslots";
+
+type Timeslot = {
+	duration: string;
+	label: string;
+	startTime: string;
+};
+
 const TimeSlotDay = () => {
-	const timeslots = [
-		{ time: "09:00 - 10:00", label: "Förberedelser" },
-		{ time: "10:00 - 11:00", label: "Bakning" },
-		{ time: "11:00 - 12:00", label: "Bakning" },
-		{ time: "12:00 - 13:00", label: "Bakning" },
-		{ time: "13:00 - 14:00", label: "Bakning" },
-		{ time: "14:00 - 15:00", label: "Bakning" },
-		{ time: "15:00 - 16:00", label: "Bakning" },
-		{ time: "16:00 - 17:00", label: "Städning" },
-	];
+	const [calendar, setCalendar] = useState<Timeslot[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch("/api/calendar");
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const data = await response.json();
+				setCalendar(data);
+			} catch (e) {
+				if (e instanceof Error) {
+					setError(e.message);
+				} else {
+					setError("An unexpected error occurred");
+				}
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+	}, []);
 
 	return (
 		<div className="grid grid-cols-1 gap-2">
-			{timeslots.map((slot, index) => (
-				<div key={`${slot.time}_${slot.label}`}>
+			{timeslots.map((slot) => (
+				<div key={`${slot.duration}_${slot.label}`}>
 					<div className="grid gap-4">
 						<div className="flex flex-col gap-1">
-							<span className="font-medium">{slot.time}</span>
+							<span className="font-medium">{slot.duration}</span>
 							<span className="text-sm text-muted-foreground">
 								{slot.label}
 							</span>
@@ -68,11 +93,11 @@ const TimeSlotCalendar = () => {
 	return (
 		<div className="grid grid-cols-2 gap-8 max-w-4xl mx-auto p-6 sm:p-8 md:p-10 flex-shrink-0">
 			<div className="space-y-4">
-				<h2 className="text-2xl font-semibold">Lördag</h2>
+				<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
 				<TimeSlotDay />
 			</div>
 			<div className="space-y-4">
-				<h2 className="text-2xl font-semibold">Söndag</h2>
+				<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
 				<TimeSlotDay />
 			</div>
 		</div>
