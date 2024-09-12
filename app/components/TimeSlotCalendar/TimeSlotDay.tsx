@@ -6,7 +6,6 @@ type TimeSlotDayProps = { calendar: TimeSlotAPI[]; weekday: TimeSlot[] };
 const TimeSlotDay = ({ calendar, weekday }: TimeSlotDayProps) => {
 	return (
 		<div className="grid grid-cols-1 gap-2">
-			<div className="flex-grow-0">{JSON.stringify(calendar, null, 2)}</div>
 			{weekday.map((slot) => (
 				<div key={slot.startTime}>
 					<div className="grid gap-4">
