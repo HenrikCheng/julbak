@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Skeleton from "./Skeleton";
-import { Ingredient } from "../api/types";
+import Skeleton from "../Skeleton";
+import { Ingredient } from "../../api/types";
 import IngredientCard from "./IngredientCard";
 
 const IngredientList: React.FC = () => {

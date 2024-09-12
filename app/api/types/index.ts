@@ -14,3 +14,10 @@ export type Ingredient = {
 	contributors: Contributor[];
 	date: string;
 };
+
+export type TimeSlotAPI = {
+	_id: string;
+	name: string;
+	date: string;
+	position: string;
+};

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Contributor, Ingredient } from "../api/types";
-import Button from "./Button";
-import Form from "./Form";
+import { Contributor, Ingredient } from "../../api/types";
+import Button from ".././Button";
+import Form from ".././Form";
 
 type IngredientPostProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
