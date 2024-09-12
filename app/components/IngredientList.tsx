@@ -33,33 +33,32 @@ const IngredientList: React.FC = () => {
 		fetchData();
 	}, []);
 
-	if (loading) {
-		return (
-			<div className="grid grid-flow-row grid-cols-1 gap-2">
-				<Skeleton />
-				<Skeleton />
-				<Skeleton />
-				<Skeleton />
-			</div>
-		);
-	}
-
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
 
 	return (
-		<ul id="Ingredients">
-			{ingredients.map((ingredient) => {
-				return (
-					<IngredientCard
-						ingredient={ingredient}
-						setIngredients={setIngredients}
-						setError={setError}
-						key={ingredient._id}
-					/>
-				);
-			})}
+		<ul id="Ingredients" className="py-6 sm:py-8 md:py-10">
+			<h2 className="text-2xl font-semibold">Ingredienser</h2>
+			{loading ? (
+				<div className="grid grid-flow-row grid-cols-1 gap-2">
+					<Skeleton />
+					<Skeleton />
+					<Skeleton />
+					<Skeleton />
+				</div>
+			) : (
+				ingredients.map((ingredient) => {
+					return (
+						<IngredientCard
+							ingredient={ingredient}
+							setIngredients={setIngredients}
+							setError={setError}
+							key={ingredient._id}
+						/>
+					);
+				})
+			)}
 		</ul>
 	);
 };

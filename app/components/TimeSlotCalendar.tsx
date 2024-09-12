@@ -39,6 +39,10 @@ const TimeSlotCalendar = () => {
 		fetchData();
 	}, []);
 
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
+
 	let saturday: TimeSlotAPI[] = [];
 	let sunday: TimeSlotAPI[] = [];
 
@@ -55,45 +59,43 @@ const TimeSlotCalendar = () => {
 	});
 
 	return (
-		<>
-			<div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto p-6 sm:p-8 md:p-10 flex-shrink-0">
-				<div className="space-y-4">
-					<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
-					{loading ? (
-						<div className="min-w-96">
-							<Skeleton />
-							<Skeleton />
-							<Skeleton />
-							<Skeleton />
-							<Skeleton />
-						</div>
-					) : (
-						<TimeSlotDay calendar={saturday} />
-					)}
-				</div>
-				<div className="space-y-4">
-					<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
-					{loading ? (
-						<div className="min-w-96">
-							<Skeleton />
-							<Skeleton />
-							<Skeleton />
-							<Skeleton />
-							<Skeleton />
-						</div>
-					) : (
-						<TimeSlotDay calendar={sunday} />
-					)}
-				</div>
+		<div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto py-6 sm:py-8 md:py-10 flex-shrink-0">
+			<div className="space-y-4">
+				<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
+				{loading ? (
+					<div className="w-80">
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+					</div>
+				) : (
+					<TimeSlotDay calendar={saturday} />
+				)}
 			</div>
-		</>
+			<div className="space-y-4">
+				<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
+				{loading ? (
+					<div className="w-80">
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+					</div>
+				) : (
+					<TimeSlotDay calendar={sunday} />
+				)}
+			</div>
+		</div>
 	);
 };
 
 const TimeSlotDay = ({ calendar }: { calendar: TimeSlotAPI[] }) => {
 	return (
 		<div className="grid grid-cols-1 gap-2">
-			<p>{JSON.stringify(calendar, null, 2)}</p>
+			{/* <p>{JSON.stringify(calendar, null, 2)}</p> */}
 			{TIME_SLOTS.map((slot) => (
 				<div key={slot.startTime}>
 					<div className="grid gap-4">

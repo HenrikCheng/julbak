@@ -24,7 +24,7 @@ const IngredientCard = ({
 
 	return (
 		<li
-			className={`m-4 block max-w-md p-6 bg-white border rounded-lg shadow dark:bg-gray-800 ${
+			className={`my-4 block max-w-md p-6 bg-white border rounded-lg shadow dark:bg-gray-800 ${
 				isCompleted
 					? "border-green-500 dark:border-green-700"
 					: "border-red-200 dark:border-red-700"
