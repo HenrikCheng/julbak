@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Contributor, Ingredient } from "../../api/types";
+import { Contributor, Ingredient } from "../../types";
 import Button from ".././Button";
 import Form from ".././Form";
 

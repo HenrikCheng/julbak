@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Contributor, Ingredient } from "../api/types";
+import { Contributor, Ingredient } from "../types";
 
 type FormProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
