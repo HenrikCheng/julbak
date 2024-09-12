@@ -1,5 +1,5 @@
 import { TimeSlotAPI } from "@/app/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type TimeSlotFieldProps = {
 	startTime: string;
@@ -8,10 +8,14 @@ type TimeSlotFieldProps = {
 };
 
 const TimeSlotField = ({ startTime, calendar, slot }: TimeSlotFieldProps) => {
-	const matchedEntry = calendar.find(
-		(entry) => entry.date === startTime && entry.position === slot,
-	);
-	const [value, setValue] = useState(matchedEntry?.name);
+	const [value, setValue] = useState<string>("");
+
+	useEffect(() => {
+		const matchedEntry = calendar.find(
+			(entry) => entry.date === startTime && entry.position === slot,
+		);
+		setValue(matchedEntry?.name || "");
+	}, [startTime, calendar, slot]);
 
 	return (
 		<div className="relative z-0 w-full mb-5 group">
