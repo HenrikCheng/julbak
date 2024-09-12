@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 import { TIME_SLOTS } from "../api/constants";
 import Skeleton from "./Skeleton";
 
-type Timeslot = {
-	duration: string;
-	label: string;
-	startTime: string;
+type TimeSlotAPI = {
+	_id: string;
+	name: string;
+	date: string;
 	position: string;
 };
 
 const TimeSlotCalendar = () => {
-	const [calendar, setCalendar] = useState<Timeslot[]>([]);
+	const [calendar, setCalendar] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -39,14 +39,28 @@ const TimeSlotCalendar = () => {
 		fetchData();
 	}, []);
 
+	let saturday: TimeSlotAPI[] = [];
+	let sunday: TimeSlotAPI[] = [];
+
+	calendar.forEach((slot: TimeSlotAPI) => {
+		const slotDate = new Date(slot.date);
+
+		if (slotDate.toISOString().startsWith("2024-12-14")) {
+			saturday.push(slot);
+		}
+
+		if (slotDate.toISOString().startsWith("2024-12-15")) {
+			sunday.push(slot);
+		}
+	});
+
 	return (
 		<>
-			{/* {JSON.stringify(calendar, null, 2)} */}
 			<div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto p-6 sm:p-8 md:p-10 flex-shrink-0">
 				<div className="space-y-4">
 					<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
 					{loading ? (
-						<div>
+						<div className="min-w-96">
 							<Skeleton />
 							<Skeleton />
 							<Skeleton />
@@ -54,13 +68,13 @@ const TimeSlotCalendar = () => {
 							<Skeleton />
 						</div>
 					) : (
-						<TimeSlotDay calendar={calendar} />
+						<TimeSlotDay calendar={saturday} />
 					)}
 				</div>
 				<div className="space-y-4">
 					<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
 					{loading ? (
-						<div>
+						<div className="min-w-96">
 							<Skeleton />
 							<Skeleton />
 							<Skeleton />
@@ -68,7 +82,7 @@ const TimeSlotCalendar = () => {
 							<Skeleton />
 						</div>
 					) : (
-						<TimeSlotDay calendar={calendar} />
+						<TimeSlotDay calendar={sunday} />
 					)}
 				</div>
 			</div>
@@ -76,9 +90,10 @@ const TimeSlotCalendar = () => {
 	);
 };
 
-const TimeSlotDay = ({ calendar }: any) => {
+const TimeSlotDay = ({ calendar }: { calendar: TimeSlotAPI[] }) => {
 	return (
 		<div className="grid grid-cols-1 gap-2">
+			<p>{JSON.stringify(calendar, null, 2)}</p>
 			{TIME_SLOTS.map((slot) => (
 				<div key={slot.startTime}>
 					<div className="grid gap-4">

@@ -1,16 +1,24 @@
-const Skeleton = () => (
-	<div
-		role="status"
-		className="max-w-md animate-pulse border border-solid border-gray-500 rounded-md my-4 p-4"
-	>
-		<div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-		<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-		<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-		<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-		<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-		<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-		<span className="sr-only">Loading...</span>
-	</div>
-);
+type SkeletonProps = {
+	size?: string;
+};
+
+const Skeleton = ({ size }: SkeletonProps) => {
+	return (
+		<div
+			role="status"
+			className={`animate-pulse border border-solid border-gray-500 rounded-md my-4 p-4 ${
+				size || "max-w-md"
+			}`}
+		>
+			<div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+			<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+			<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+			<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+			<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+			<div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+			<span className="sr-only">Loading...</span>
+		</div>
+	);
+};
 
 export default Skeleton;
