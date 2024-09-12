@@ -21,3 +21,9 @@ export type TimeSlotAPI = {
 	date: string;
 	position: string;
 };
+
+export type TimeSlot = {
+	duration: string;
+	label: string;
+	startTime: string;
+};

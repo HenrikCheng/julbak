@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Skeleton from "../Skeleton";
-import { TimeSlotAPI } from "@/app/api/types";
 import TimeSlotDay from "./TimeSlotDay";
+import { TIME_SLOTS_SATURDAY, TIME_SLOTS_SUNDAY } from "@/app/api/constants";
 
 const TimeSlotCalendar = () => {
 	const [calendar, setCalendar] = useState([]);
@@ -37,21 +37,6 @@ const TimeSlotCalendar = () => {
 		return <div>Error: {error}</div>;
 	}
 
-	let saturday: TimeSlotAPI[] = [];
-	let sunday: TimeSlotAPI[] = [];
-
-	calendar.forEach((slot: TimeSlotAPI) => {
-		const slotDate = new Date(slot.date);
-
-		if (slotDate.toISOString().startsWith("2024-12-14")) {
-			saturday.push(slot);
-		}
-
-		if (slotDate.toISOString().startsWith("2024-12-15")) {
-			sunday.push(slot);
-		}
-	});
-
 	return (
 		<div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto py-6 sm:py-8 md:py-10 flex-shrink-0">
 			<div className="space-y-4">
@@ -65,7 +50,7 @@ const TimeSlotCalendar = () => {
 						<Skeleton />
 					</div>
 				) : (
-					<TimeSlotDay calendar={saturday} />
+					<TimeSlotDay calendar={calendar} weekday={TIME_SLOTS_SATURDAY} />
 				)}
 			</div>
 			<div className="space-y-4">
@@ -79,7 +64,7 @@ const TimeSlotCalendar = () => {
 						<Skeleton />
 					</div>
 				) : (
-					<TimeSlotDay calendar={sunday} />
+					<TimeSlotDay calendar={calendar} weekday={TIME_SLOTS_SUNDAY} />
 				)}
 			</div>
 		</div>

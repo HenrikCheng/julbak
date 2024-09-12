@@ -1,12 +1,13 @@
-import { TIME_SLOTS } from "@/app/api/constants";
-import { TimeSlotAPI } from "@/app/api/types";
+import { TimeSlot, TimeSlotAPI } from "@/app/api/types";
 import TimeSlotField from "./TimeSlotField";
 
-const TimeSlotDay = ({ calendar }: { calendar: TimeSlotAPI[] }) => {
+type TimeSlotDayProps = { calendar: TimeSlotAPI[]; weekday: TimeSlot[] };
+
+const TimeSlotDay = ({ calendar, weekday }: TimeSlotDayProps) => {
 	return (
 		<div className="grid grid-cols-1 gap-2">
-			{/* <p>{JSON.stringify(calendar, null, 2)}</p> */}
-			{TIME_SLOTS.map((slot) => (
+			<div className="flex-grow-0">{JSON.stringify(calendar, null, 2)}</div>
+			{weekday.map((slot) => (
 				<div key={slot.startTime}>
 					<div className="grid gap-4">
 						<div className="flex flex-col gap-1">
@@ -16,8 +17,16 @@ const TimeSlotDay = ({ calendar }: { calendar: TimeSlotAPI[] }) => {
 							</span>
 						</div>
 						<form className="flex items-center justify-end gap-2">
-							<TimeSlotField label="Deltagare 1" startTime={slot.startTime} />
-							<TimeSlotField label="Deltagare 2" startTime={slot.startTime} />
+							<TimeSlotField
+								startTime={slot.startTime}
+								calendar={calendar}
+								slot="1"
+							/>
+							<TimeSlotField
+								startTime={slot.startTime}
+								calendar={calendar}
+								slot="2"
+							/>
 						</form>
 					</div>
 				</div>
