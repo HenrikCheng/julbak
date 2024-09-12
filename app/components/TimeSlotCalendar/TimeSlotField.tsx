@@ -1,4 +1,4 @@
-import { TimeSlotAPI } from "@/app/api/types";
+import { TimeSlotAPI } from "@/app/types";
 import { useState } from "react";
 
 type TimeSlotFieldProps = {

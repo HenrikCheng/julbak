@@ -1,4 +1,4 @@
-import { TimeSlot, TimeSlotAPI } from "@/app/api/types";
+import { TimeSlot, TimeSlotAPI } from "@/app/types";
 import TimeSlotField from "./TimeSlotField";
 
 type TimeSlotDayProps = { calendar: TimeSlotAPI[]; weekday: TimeSlot[] };
