@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Contributor, Ingredient } from "../../types";
 import Button from ".././Button";
-import Form from "./IngredientForm";
+import IngredientForm from "./IngredientForm";
 
 type IngredientPostProps = {
 	setIngredients: Dispatch<SetStateAction<Ingredient[]>>;
@@ -90,7 +90,7 @@ const IngredientPost = ({
 			</div>
 			{open && (
 				<div className="mt-10">
-					<Form
+					<IngredientForm
 						setIngredients={setIngredients}
 						setError={setError}
 						ingredientId={ingredient._id}

@@ -5,6 +5,7 @@ type ButtonProps = {
 	color: "blue" | "red" | "transparent";
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	type?: "button" | "submit" | "reset" | undefined;
+	disabled?: boolean;
 };
 
 const colorClasses = {
@@ -14,12 +15,17 @@ const colorClasses = {
 		"bg-transparent hover:bg-gray-700 focus:ring-gray-300 dark:transparent dark:hover:bg-gray-600 dark:focus:ring-gray-800",
 };
 
-const Button = ({ children, color, onClick, type }: ButtonProps) => {
+const Button = ({ children, color, onClick, type, disabled }: ButtonProps) => {
 	return (
 		<button
 			type={type || "button"}
 			onClick={onClick}
-			className={`text-white ${colorClasses[color]} focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 focus:outline-none`}
+			className={`text-white ${
+				colorClasses[color]
+			} focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
+				disabled ? "disabled:cursor-not-allowed disabled:opacity-50" : ""
+			}`}
+			disabled={disabled}
 		>
 			{children}
 		</button>
