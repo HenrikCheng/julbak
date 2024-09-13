@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Contributor, Ingredient } from "../types";
+import { Contributor, Ingredient } from "../../types";
 
 type FormProps = {
 	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
@@ -10,7 +10,7 @@ type FormProps = {
 	contributor?: Contributor;
 };
 
-const Form = ({
+const IngredientForm = ({
 	setIngredients,
 	setError,
 	ingredientId,
@@ -201,4 +201,4 @@ const Form = ({
 	);
 };
 
-export default Form;
+export default IngredientForm;

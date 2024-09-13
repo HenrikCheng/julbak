@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Contributor, Ingredient } from "@/app/types";
 import Button from "@/app/components/Button";
-import Form from "@/app/components/Form";
+import IngredientForm from "./IngredientForm";
 import IngredientPost from "./IngredientPost";
 
 type IngredientCardProps = {
@@ -47,7 +47,7 @@ const IngredientCard = ({
 				{open ? "Stäng" : "Jag kan bidra"}
 			</Button>
 			{open && (
-				<Form
+				<IngredientForm
 					setIngredients={setIngredients}
 					setError={setError}
 					ingredientId={ingredient._id}
