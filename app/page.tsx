@@ -7,7 +7,7 @@ export default function Home() {
 	return (
 		<main className="flex min-h-screen flex-col items-center">
 			<Jumbotron />
-			<div className="flex flex-row-reverse flex-wrap gap-8">
+			<div className="flex flex-row-reverse flex-wrap gap-8 justify-center">
 				<TimeSlotCalendar />
 				<IngredientList />
 			</div>

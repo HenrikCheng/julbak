@@ -9,13 +9,41 @@ type TimeSlotFieldProps = {
 
 const TimeSlotField = ({ startTime, calendar, slot }: TimeSlotFieldProps) => {
 	const [value, setValue] = useState<string>("");
+	const [response, setResponse] = useState<any>(null);
+	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		const matchedEntry = calendar.find(
 			(entry) => entry.date === startTime && entry.position === slot,
 		);
-		setValue(matchedEntry?.name || "");
+		setValue(matchedEntry?.name || ""); // Fallback to an empty string if no match
 	}, [startTime, calendar, slot]);
+
+	// Function to handle form submission
+	const handleSubmit = async () => {
+		try {
+			const response = await fetch("/api/calendar", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					name: value,
+					date: startTime,
+					position: slot,
+				}),
+			});
+
+			const result = await response.json();
+			if (!response.ok) {
+				throw new Error(result.error || "Something went wrong");
+			}
+			setResponse(result);
+		} catch (err: any) {
+			console.error("Error:", err);
+			setError(err.message);
+		}
+	};
 
 	return (
 		<div className="relative z-0 w-full mb-5 group">
@@ -34,6 +62,13 @@ const TimeSlotField = ({ startTime, calendar, slot }: TimeSlotFieldProps) => {
 			>
 				{`Deltagare ${slot}`}
 			</label>
+
+			<button type="button" onClick={handleSubmit}>
+				Submit
+			</button>
+
+			{response && <div className="mt-2 text-green-500">Success!</div>}
+			{error && <div className="mt-2 text-red-500">Error: {error}</div>}
 		</div>
 	);
 };
