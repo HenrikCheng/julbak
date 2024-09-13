@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Contributor, Ingredient } from "../../types";
 import Button from ".././Button";
 import Form from "./IngredientForm";
 
 type IngredientPostProps = {
-	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
-	setError: React.Dispatch<React.SetStateAction<string | null>>;
+	setIngredients: Dispatch<SetStateAction<Ingredient[]>>;
+	setError: Dispatch<SetStateAction<string | null>>;
 	contributor: Contributor;
 	index: number;
 	ingredient: Ingredient;

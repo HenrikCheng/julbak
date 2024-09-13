@@ -1,12 +1,14 @@
 import { TimeSlot, TimeSlotAPI } from "@/app/types";
 import TimeSlotField from "./TimeSlotField";
+import { Dispatch, SetStateAction } from "react";
 
 type TimeSlotDayProps = {
 	calendar: TimeSlotAPI[];
 	weekday: TimeSlot[];
+	setCalendar: Dispatch<SetStateAction<never[]>>;
 };
 
-const TimeSlotDay = ({ calendar, weekday }: TimeSlotDayProps) => {
+const TimeSlotDay = ({ calendar, weekday, setCalendar }: TimeSlotDayProps) => {
 	return (
 		<div className="grid grid-cols-1 gap-2">
 			{weekday.map((slot) => (
@@ -23,11 +25,13 @@ const TimeSlotDay = ({ calendar, weekday }: TimeSlotDayProps) => {
 								startTime={slot.startTime}
 								calendar={calendar}
 								slot="1"
+								setCalendar={setCalendar}
 							/>
 							<TimeSlotField
 								startTime={slot.startTime}
 								calendar={calendar}
 								slot="2"
+								setCalendar={setCalendar}
 							/>
 						</form>
 					</div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Contributor, Ingredient } from "@/app/types";
 import Button from "@/app/components/Button";
 import IngredientForm from "./IngredientForm";
@@ -6,8 +6,8 @@ import IngredientPost from "./IngredientPost";
 
 type IngredientCardProps = {
 	ingredient: Ingredient;
-	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
-	setError: React.Dispatch<React.SetStateAction<string | null>>;
+	setIngredients: Dispatch<SetStateAction<Ingredient[]>>;
+	setError: Dispatch<SetStateAction<string | null>>;
 };
 
 const IngredientCard = ({

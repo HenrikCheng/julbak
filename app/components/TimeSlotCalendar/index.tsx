@@ -50,7 +50,11 @@ const TimeSlotCalendar = () => {
 						<Skeleton />
 					</div>
 				) : (
-					<TimeSlotDay calendar={calendar} weekday={TIME_SLOTS_SATURDAY} />
+					<TimeSlotDay
+						calendar={calendar}
+						weekday={TIME_SLOTS_SATURDAY}
+						setCalendar={setCalendar}
+					/>
 				)}
 			</div>
 			<div className="space-y-4">
@@ -64,7 +68,11 @@ const TimeSlotCalendar = () => {
 						<Skeleton />
 					</div>
 				) : (
-					<TimeSlotDay calendar={calendar} weekday={TIME_SLOTS_SUNDAY} />
+					<TimeSlotDay
+						calendar={calendar}
+						weekday={TIME_SLOTS_SUNDAY}
+						setCalendar={setCalendar}
+					/>
 				)}
 			</div>
 		</div>

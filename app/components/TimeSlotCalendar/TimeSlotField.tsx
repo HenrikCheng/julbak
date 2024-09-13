@@ -1,22 +1,26 @@
 import { TimeSlotAPI } from "@/app/types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 type TimeSlotFieldProps = {
 	startTime: string;
 	calendar: TimeSlotAPI[];
 	slot: string;
+	setCalendar: Dispatch<SetStateAction<never[]>>;
 };
 
-const TimeSlotField = ({ startTime, calendar, slot }: TimeSlotFieldProps) => {
+const TimeSlotField = ({
+	startTime,
+	calendar,
+	slot,
+	setCalendar,
+}: TimeSlotFieldProps) => {
 	const [value, setValue] = useState<string>("");
-	const [response, setResponse] = useState<any>(null);
-	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		const matchedEntry = calendar.find(
 			(entry) => entry.date === startTime && entry.position === slot,
 		);
-		setValue(matchedEntry?.name || ""); // Fallback to an empty string if no match
+		setValue(matchedEntry?.name || "");
 	}, [startTime, calendar, slot]);
 
 	const handleSubmit = async () => {
@@ -37,10 +41,35 @@ const TimeSlotField = ({ startTime, calendar, slot }: TimeSlotFieldProps) => {
 			if (!response.ok) {
 				throw new Error(result.error || "Something went wrong");
 			}
-			setResponse(result);
-		} catch (err: any) {
-			console.error("Error:", err);
-			setError(err.message);
+		} catch (error: any) {
+			console.error("Error:", error);
+		}
+	};
+
+	const handleClear = async () => {
+		try {
+			const response = await fetch(`/api/calendar?_id=${calendar[0]._id}`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			const result = await response.json();
+			if (!response.ok) {
+				throw new Error(result.error || "Something went wrong");
+			}
+
+			// Re-fetch updated calendar data after deletion
+			const updatedCalendarResponse = await fetch("/api/calendar");
+			const updatedCalendar = await updatedCalendarResponse.json();
+			if (updatedCalendarResponse.ok) {
+				setCalendar(updatedCalendar);
+			} else {
+				throw new Error("Failed to re-fetch updated calendar data");
+			}
+		} catch (error: any) {
+			console.error("Error:", error);
 		}
 	};
 
@@ -65,9 +94,9 @@ const TimeSlotField = ({ startTime, calendar, slot }: TimeSlotFieldProps) => {
 			<button type="button" onClick={handleSubmit}>
 				Submit
 			</button>
-
-			{response && <div className="mt-2 text-green-500">Success!</div>}
-			{error && <div className="mt-2 text-red-500">Error: {error}</div>}
+			<button type="button" onClick={handleClear}>
+				Clear
+			</button>
 		</div>
 	);
 };

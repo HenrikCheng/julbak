@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Contributor, Ingredient } from "../../types";
 
 type FormProps = {
-	setIngredients: React.Dispatch<React.SetStateAction<Ingredient[]>>;
-	setError: React.Dispatch<React.SetStateAction<string | null>>;
+	setIngredients: Dispatch<SetStateAction<Ingredient[]>>;
+	setError: Dispatch<SetStateAction<string | null>>;
 	ingredientId: string;
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setOpen: Dispatch<SetStateAction<boolean>>;
 	buttonText: string;
 	contributor?: Contributor;
 };
