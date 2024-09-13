@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Contributor, Ingredient } from "../../types";
-import Button from ".././Button";
-import Form from ".././Form";
+import { Contributor, Ingredient } from "@/app/types";
+import Button from "@/app/components/Button";
+import Form from "@/app/components/Form";
 import IngredientPost from "./IngredientPost";
 
 type IngredientCardProps = {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Skeleton from "../Skeleton";
-import { Ingredient } from "../../types";
+import { Ingredient } from "@/app/types";
 import IngredientCard from "./IngredientCard";
 
 const IngredientList: React.FC = () => {

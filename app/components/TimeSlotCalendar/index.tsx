@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Skeleton from "../Skeleton";
 import TimeSlotDay from "./TimeSlotDay";
-import { TIME_SLOTS_SATURDAY, TIME_SLOTS_SUNDAY } from "@/app/api/constants";
+import { TIME_SLOTS_SATURDAY, TIME_SLOTS_SUNDAY } from "@/app/constants";
 
 const TimeSlotCalendar = () => {
 	const [calendar, setCalendar] = useState([]);
