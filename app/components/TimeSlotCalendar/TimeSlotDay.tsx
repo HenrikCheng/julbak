@@ -1,7 +1,10 @@
 import { TimeSlot, TimeSlotAPI } from "@/app/types";
 import TimeSlotField from "./TimeSlotField";
 
-type TimeSlotDayProps = { calendar: TimeSlotAPI[]; weekday: TimeSlot[] };
+type TimeSlotDayProps = {
+	calendar: TimeSlotAPI[];
+	weekday: TimeSlot[];
+};
 
 const TimeSlotDay = ({ calendar, weekday }: TimeSlotDayProps) => {
 	return (

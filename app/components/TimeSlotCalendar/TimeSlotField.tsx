@@ -19,7 +19,6 @@ const TimeSlotField = ({ startTime, calendar, slot }: TimeSlotFieldProps) => {
 		setValue(matchedEntry?.name || ""); // Fallback to an empty string if no match
 	}, [startTime, calendar, slot]);
 
-	// Function to handle form submission
 	const handleSubmit = async () => {
 		try {
 			const response = await fetch("/api/calendar", {
