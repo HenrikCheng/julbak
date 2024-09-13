@@ -7,6 +7,7 @@ type FormProps = {
 	ingredientId: string;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	buttonText: string;
+	// ingredient: Ingredient;
 	contributor?: Contributor;
 };
 
@@ -17,7 +18,8 @@ const IngredientForm = ({
 	setOpen,
 	contributor,
 	buttonText,
-}: FormProps) => {
+}: // ingredient,
+FormProps) => {
 	const [floatingName, setFloatingName] = useState("");
 	const [floatingNotes, setFloatingNotes] = useState("");
 	const [floatingNumber, setFloatingNumber] = useState(0);
@@ -173,6 +175,23 @@ const IngredientForm = ({
 				>
 					Antal
 				</label>
+
+				{/* <label
+					htmlFor="default-range"
+					className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+				>
+					Antal: {floatingNumber} {ingredient?.unit}
+				</label>
+				<input
+					id="default-range"
+					type="range"
+					min="1"
+					max={ingredient?.desired_amount}
+					step="1"
+					className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-900"
+					value={floatingNumber}
+					onChange={(e) => setFloatingNumber(Number(e.target.value))}
+				/> */}
 			</div>
 			<div className="relative z-0 w-full mb-5 group">
 				<input

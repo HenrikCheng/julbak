@@ -97,6 +97,7 @@ const IngredientPost = ({
 						setOpen={setOpen}
 						contributor={contributor}
 						buttonText="Uppdatera"
+						// ingredient={ingredient}
 					/>
 				</div>
 			)}

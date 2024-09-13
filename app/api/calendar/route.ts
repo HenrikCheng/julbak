@@ -39,6 +39,26 @@ export async function POST(request: Request) {
 			);
 		}
 
+		// Check if an existing entry with the same date and position exists
+		const existingItem = await db
+			.collection("time_slot_booking")
+			.findOne({ date, position });
+
+		if (existingItem) {
+			// Delete the existing item
+			const deleteResult = await db
+				.collection("time_slot_booking")
+				.deleteOne({ _id: existingItem._id });
+
+			if (deleteResult.deletedCount === 0) {
+				return NextResponse.json(
+					{ error: "Failed to delete existing item" },
+					{ status: 500 },
+				);
+			}
+		}
+
+		// Insert the new item
 		const result = await db.collection("time_slot_booking").insertOne(newItem);
 		return NextResponse.json(result, { status: 201 });
 	} catch (error) {
