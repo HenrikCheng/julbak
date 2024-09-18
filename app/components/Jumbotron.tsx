@@ -46,7 +46,6 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 						</div>
 					) : (
 						<div className="text-center space-y-4">
-							<p className="text-lg font-medium">You are not logged in.</p>
 							<Button onClick={() => signIn()}>Logga in</Button>
 						</div>
 					)}
