@@ -1,6 +1,14 @@
-import Link from "next/link";
+import { Session } from "next-auth";
+import Button from "./Button";
+import Image from "next/image";
 
-const Jumbotron = () => {
+type JumbotronProps = {
+	session?: Session;
+	signIn: any;
+	signOut: any;
+};
+
+const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 	return (
 		<section className="bg-white dark:bg-gray-900">
 			<div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
@@ -15,28 +23,33 @@ const Jumbotron = () => {
 					knappen för att se vad som behövs!
 				</p>
 
-				<div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-					<Link
-						href="#Ingredients"
-						className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
-					>
-						Starta här
-						<svg
-							className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
-							aria-hidden="true"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 14 10"
-						>
-							<path
-								stroke="currentColor"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M1 5h12m0 0L9 1m4 4L9 9"
-							/>
-						</svg>
-					</Link>
+				<div className="flex items-center justify-center h-full">
+					{session ? (
+						<div className="text-center space-y-4">
+							<div className="flex items-center justify-center space-x-4">
+								{session?.user?.image && (
+									<Image
+										alt={`${session.user?.name}'s Avatar`}
+										src={session?.user?.image}
+										width={50}
+										height={50}
+										className="rounded-full"
+									/>
+								)}
+								<p className="text-lg font-medium">
+									Välkommen, {session.user?.name}
+								</p>
+							</div>
+							<Button onClick={() => signOut()} color="red">
+								Logga ut
+							</Button>
+						</div>
+					) : (
+						<div className="text-center space-y-4">
+							<p className="text-lg font-medium">You are not logged in.</p>
+							<Button onClick={() => signIn()}>Logga in</Button>
+						</div>
+					)}
 				</div>
 			</div>
 		</section>
