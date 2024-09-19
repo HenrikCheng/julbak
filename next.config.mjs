@@ -8,6 +8,7 @@ const nextConfig = {
 			"apis.live.net", // Microsoft
 			"avatars.githubusercontent.com", // GitHub
 			"pbs.twimg.com", // Twitter
+			"s.gravatar.com",
 		],
 	},
 };
