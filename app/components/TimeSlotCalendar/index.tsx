@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Skeleton from "../Skeleton";
 import TimeSlotDay from "./TimeSlotDay";
-import { TIME_SLOTS_SATURDAY, TIME_SLOTS_SUNDAY } from "@/app/constants";
+import { TIME_SLOTS_SATURDAY } from "@/app/constants";
 
 const TimeSlotCalendar = () => {
 	const [calendar, setCalendar] = useState([]);
@@ -53,24 +53,6 @@ const TimeSlotCalendar = () => {
 					<TimeSlotDay
 						calendar={calendar}
 						weekday={TIME_SLOTS_SATURDAY}
-						setCalendar={setCalendar}
-					/>
-				)}
-			</div>
-			<div className="space-y-4">
-				<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
-				{loading ? (
-					<div className="w-80">
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-					</div>
-				) : (
-					<TimeSlotDay
-						calendar={calendar}
-						weekday={TIME_SLOTS_SUNDAY}
 						setCalendar={setCalendar}
 					/>
 				)}

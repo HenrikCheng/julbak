@@ -48,7 +48,17 @@ const TimeSlotField = ({
 
 	const handleClear = async () => {
 		try {
-			const response = await fetch(`/api/calendar?_id=${calendar[0]._id}`, {
+			// Find the entry to be deleted based on startTime and slot
+			const entryToDelete = calendar.find(
+				(entry) => entry.date === startTime && entry.position === slot,
+			);
+
+			if (!entryToDelete) {
+				console.log("No entry found to clear.");
+				return; // Exit if no entry found
+			}
+
+			const response = await fetch(`/api/calendar?_id=${entryToDelete._id}`, {
 				method: "DELETE",
 				headers: {
 					"Content-Type": "application/json",
