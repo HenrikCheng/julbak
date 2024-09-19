@@ -34,6 +34,7 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 										width={50}
 										height={50}
 										className="rounded-full"
+										unoptimized // Disable image optimization for external URL
 									/>
 								)}
 								<p className="text-lg font-medium">
