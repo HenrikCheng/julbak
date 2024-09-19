@@ -1,12 +1,38 @@
 import { Session } from "next-auth";
 import Button from "./Button";
 import Image from "next/image";
+import loginFeature from "@/app/config/featureFlags";
+import Link from "next/link";
 
 type JumbotronProps = {
 	session?: Session;
 	signIn: any;
 	signOut: any;
 };
+
+const LinkComponent = () => (
+	<Link
+		href="#Ingredients"
+		className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+	>
+		Starta här
+		<svg
+			className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+			aria-hidden="true"
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 14 10"
+		>
+			<path
+				stroke="currentColor"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				strokeWidth="2"
+				d="M1 5h12m0 0L9 1m4 4L9 9"
+			/>
+		</svg>
+	</Link>
+);
 
 const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 	return (
@@ -24,31 +50,35 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 				</p>
 
 				<div className="flex items-center justify-center h-full">
-					{session ? (
-						<div className="text-center space-y-4">
-							<div className="flex items-center justify-center space-x-4">
-								{session?.user?.image && (
-									<Image
-										alt={`${session.user?.name}'s Avatar`}
-										src={session?.user?.image}
-										width={50}
-										height={50}
-										className="rounded-full"
-										unoptimized // Disable image optimization for external URL
-									/>
-								)}
-								<p className="text-lg font-medium">
-									Välkommen, {session.user?.name}
-								</p>
+					{loginFeature ? (
+						session ? (
+							<div className="text-center space-y-4">
+								<div className="flex items-center justify-center space-x-4">
+									{session?.user?.image && (
+										<Image
+											alt={`${session.user?.name}'s Avatar`}
+											src={session?.user?.image}
+											width={50}
+											height={50}
+											className="rounded-full"
+											unoptimized // Disable image optimization for external URL
+										/>
+									)}
+									<p className="text-lg font-medium">
+										Välkommen, {session.user?.name}
+									</p>
+								</div>
+								<Button onClick={() => signOut()} color="red">
+									Logga ut
+								</Button>
 							</div>
-							<Button onClick={() => signOut()} color="red">
-								Logga ut
-							</Button>
-						</div>
+						) : (
+							<div className="text-center space-y-4">
+								<Button onClick={() => signIn()}>Logga in</Button>
+							</div>
+						)
 					) : (
-						<div className="text-center space-y-4">
-							<Button onClick={() => signIn()}>Logga in</Button>
-						</div>
+						<LinkComponent />
 					)}
 				</div>
 			</div>
