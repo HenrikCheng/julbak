@@ -1,6 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Contributor, Ingredient } from "../../types";
 import Button from "../Button";
+import { useSession } from "next-auth/react";
 
 type FormProps = {
 	setIngredients: Dispatch<SetStateAction<Ingredient[]>>;
@@ -21,7 +22,10 @@ const IngredientForm = ({
 	buttonText,
 }: // ingredient,
 FormProps) => {
-	const [floatingName, setFloatingName] = useState("");
+	const { data: session } = useSession();
+	const [floatingName, setFloatingName] = useState(
+		session?.user?.name || session?.user?.email || "",
+	);
 	const [floatingNotes, setFloatingNotes] = useState("");
 	const [floatingNumber, setFloatingNumber] = useState(0);
 
@@ -130,7 +134,7 @@ FormProps) => {
 
 	return (
 		<form
-			className="max-w-md mx-auto"
+			className="max-w-md mx-auto mt-5"
 			onSubmit={(e) => {
 				e.preventDefault();
 				handleCreateContributor(
