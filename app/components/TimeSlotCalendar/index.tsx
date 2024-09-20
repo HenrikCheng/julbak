@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 import Skeleton from "../Skeleton";
 import TimeSlotDay from "./TimeSlotDay";
 import { TIME_SLOTS_SATURDAY } from "@/app/constants";
+import { Session } from "next-auth";
 
-const TimeSlotCalendar = () => {
+type TimeSlotCalendarProps = {
+	session?: Session;
+};
+
+const TimeSlotCalendar = ({ session }: TimeSlotCalendarProps) => {
 	const [calendar, setCalendar] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -54,9 +59,28 @@ const TimeSlotCalendar = () => {
 						calendar={calendar}
 						weekday={TIME_SLOTS_SATURDAY}
 						setCalendar={setCalendar}
+						session={session || undefined}
 					/>
 				)}
 			</div>
+			{/* <div className="space-y-4">
+				<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
+				{loading ? (
+					<div className="w-80">
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+					</div>
+				) : (
+					<TimeSlotDay
+						calendar={calendar}
+						weekday={TIME_SLOTS_SATURDAY}
+						setCalendar={setCalendar}
+					/>
+				)}
+			</div> */}
 		</div>
 	);
 };

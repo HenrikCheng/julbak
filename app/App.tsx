@@ -15,7 +15,7 @@ const App = () => {
 				signOut={signOut}
 			/>
 			<div className="flex flex-row-reverse flex-wrap gap-8 justify-center">
-				<TimeSlotCalendar />
+				<TimeSlotCalendar session={session || undefined} />
 				<IngredientList />
 			</div>
 			<Footer />

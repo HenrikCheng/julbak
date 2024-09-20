@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 
 type ButtonProps = {
 	children: string | ReactElement<any, any>;
-	color?: "blue" | "red" | "transparent";
+	color?: "blue" | "red" | "transparent" | "gray" | "green";
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 	type?: "button" | "submit" | "reset" | undefined;
 	disabled?: boolean;
@@ -14,6 +14,9 @@ const colorClasses = {
 	red: "bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800",
 	transparent:
 		"bg-transparent hover:bg-gray-700 focus:ring-gray-300 dark:transparent dark:hover:bg-gray-600 dark:focus:ring-gray-800",
+	gray: "bg-gray-700 hover:bg-gray-800 focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800",
+	green:
+		"bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800",
 };
 
 const Button = ({
