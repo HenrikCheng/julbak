@@ -68,13 +68,15 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 										Välkommen, {session.user?.name}
 									</p>
 								</div>
-								<Button onClick={() => signOut()} color="red">
+								<Button size="large" onClick={() => signOut()} color="red">
 									Logga ut
 								</Button>
 							</div>
 						) : (
 							<div className="text-center space-y-4">
-								<Button onClick={() => signIn()}>Logga in</Button>
+								<Button size="large" onClick={() => signIn()}>
+									Logga in
+								</Button>
 							</div>
 						)
 					) : (

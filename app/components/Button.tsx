@@ -7,6 +7,7 @@ type ButtonProps = {
 	type?: "button" | "submit" | "reset" | undefined;
 	disabled?: boolean;
 	className?: string;
+	size?: "medium" | "large";
 };
 
 const colorClasses = {
@@ -19,6 +20,11 @@ const colorClasses = {
 		"bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800",
 };
 
+const sizeClasses = {
+	medium: "text-sm px-5 py-2.5",
+	large: "px-5 py-3 text-base",
+};
+
 const Button = ({
 	children,
 	color = "blue",
@@ -26,6 +32,7 @@ const Button = ({
 	type,
 	disabled,
 	className,
+	size = "medium",
 }: ButtonProps) => {
 	return (
 		<button
@@ -33,9 +40,9 @@ const Button = ({
 			onClick={onClick}
 			className={
 				className ||
-				`text-white ${
-					colorClasses[color]
-				} focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
+				`text-white ${colorClasses[color]} ${
+					sizeClasses[size]
+				} focus:ring-4 font-medium rounded-lg me-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
 					disabled ? "disabled:cursor-not-allowed disabled:opacity-50" : ""
 				}`
 			}
