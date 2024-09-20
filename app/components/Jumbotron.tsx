@@ -3,6 +3,7 @@ import Button from "./Button";
 import Image from "next/image";
 import loginFeature from "@/app/config/featureFlags";
 import Link from "next/link";
+import { TypeAnimation } from "react-type-animation";
 
 type JumbotronProps = {
 	session?: Session;
@@ -46,7 +47,20 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 					pengarna vi tjänar in går till att ge barnen extra roliga aktiviteter
 					och nya leksaker. Vi behöver hjälp under bakandet men även bidrag i
 					form av ingredienser och andra saker. Scrolla ner eller tryck på
-					knappen för att se vad som behövs!
+					knappen för att se{" "}
+					<TypeAnimation
+						sequence={[
+							"vad som behövs.",
+							2000,
+							"vad du kan hjälpa.",
+							3000,
+							"vad du kan hjälpa till med.",
+							5000,
+						]}
+						wrapper="span"
+						cursor={true}
+						repeat={Infinity}
+					/>
 				</p>
 
 				<div className="flex items-center justify-center h-full">
