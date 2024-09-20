@@ -44,10 +44,10 @@ const TimeSlotCalendar = ({ session }: TimeSlotCalendarProps) => {
 
 	return (
 		<div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto py-6 sm:py-8 md:py-10 flex-shrink-0">
-			<div className="space-y-4">
+			<div className="space-y-4 min-w-80">
 				<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
 				{loading ? (
-					<div className="w-80">
+					<div className="min-w-80">
 						<Skeleton />
 						<Skeleton />
 						<Skeleton />

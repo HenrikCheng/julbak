@@ -61,17 +61,25 @@ const TimeSlotDay = ({
 		}
 	};
 
-	const renderButton = (slot: TimeSlot, slotNumber: string) => {
-		const isRegistered = calendar.some(
-			(entry) => entry.date === slot.startTime && entry.position === slotNumber,
+	// Helper function to get the name of the person occupying a slot
+	const getOccupantName = (startTime: string, slotNumber: string) => {
+		const entry = calendar.find(
+			(entry) => entry.date === startTime && entry.position === slotNumber,
 		);
-		const buttonText = isRegistered
-			? session?.user?.name || session?.user?.email || ""
-			: "Anmäl mig";
+		return entry?.name || "";
+	};
+
+	const renderButton = (
+		slot: TimeSlot,
+		slotNumber: string,
+		allSlotsFilled: boolean,
+	) => {
+		const occupantName = getOccupantName(slot.startTime, slotNumber);
+		const buttonText = occupantName ? occupantName : "Anmäl mig";
 
 		return (
 			<Button
-				color={isRegistered ? undefined : "gray"}
+				color={allSlotsFilled ? "green" : occupantName ? "blue" : "gray"}
 				onClick={() =>
 					toggleAdmission({ startTime: slot.startTime, slot: slotNumber })
 				}
@@ -83,35 +91,50 @@ const TimeSlotDay = ({
 
 	return (
 		<div className="grid grid-cols-1 gap-2">
-			{weekday.map((slot) => (
-				<div
-					key={slot.startTime}
-					className="grid gap-4 border-t-2 py-4 border-gray-500"
-				>
-					<div className="flex flex-col gap-1">
-						<span className="font-medium">{slot.duration}</span>
-						<span className="text-sm text-muted-foreground">{slot.label}</span>
-					</div>
+			{weekday.map((slot) => {
+				// Check if both slot 1 and slot 2 are filled
+				const allSlotsFilled =
+					calendar.some(
+						(entry) => entry.date === slot.startTime && entry.position === "1",
+					) &&
+					calendar.some(
+						(entry) => entry.date === slot.startTime && entry.position === "2",
+					);
 
-					{loginFeature && session ? (
-						<div className="flex items-center justify-end gap-2">
-							{["1", "2"].map((slotNumber) => renderButton(slot, slotNumber))}
+				return (
+					<div
+						key={slot.startTime}
+						className="grid gap-4 border-t-2 py-4 border-gray-500"
+					>
+						<div className="flex flex-col gap-1">
+							<span className="font-medium">{slot.duration}</span>
+							<span className="text-sm text-muted-foreground">
+								{slot.label}
+							</span>
 						</div>
-					) : (
-						<form className="flex items-center justify-end gap-2">
-							{["1", "2"].map((slotNumber) => (
-								<TimeSlotField
-									key={slotNumber}
-									startTime={slot.startTime}
-									calendar={calendar}
-									slot={slotNumber}
-									setCalendar={setCalendar}
-								/>
-							))}
-						</form>
-					)}
-				</div>
-			))}
+
+						{loginFeature && session ? (
+							<div className="flex items-center justify-end gap-2">
+								{["1", "2"].map((slotNumber) =>
+									renderButton(slot, slotNumber, allSlotsFilled),
+								)}
+							</div>
+						) : (
+							<form className="flex items-center justify-end gap-2">
+								{["1", "2"].map((slotNumber) => (
+									<TimeSlotField
+										key={slotNumber}
+										startTime={slot.startTime}
+										calendar={calendar}
+										slot={slotNumber}
+										setCalendar={setCalendar}
+									/>
+								))}
+							</form>
+						)}
+					</div>
+				);
+			})}
 		</div>
 	);
 };

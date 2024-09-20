@@ -53,9 +53,9 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 							"vad som behövs.",
 							2000,
 							"vad du kan hjälpa.",
-							3000,
+							1000,
 							"vad du kan hjälpa till med.",
-							5000,
+							3000,
 						]}
 						wrapper="span"
 						cursor={true}
