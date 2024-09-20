@@ -104,7 +104,9 @@ const TimeSlotDay = ({
 				return (
 					<div
 						key={slot.startTime}
-						className="grid gap-4 border-t-2 py-4 border-gray-500"
+						className={`grid gap-4${
+							session ? " border-t-2 py-4 border-gray-500" : ""
+						}`}
 					>
 						<div className="flex flex-col gap-1">
 							<span className="font-medium">{slot.duration}</span>
