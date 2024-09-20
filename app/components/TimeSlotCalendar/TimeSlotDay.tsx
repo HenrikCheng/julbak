@@ -74,79 +74,78 @@ const TimeSlotDay = ({
 	return (
 		<div className="grid grid-cols-1 gap-2">
 			{weekday.map((slot) => (
-				<div key={slot.startTime}>
-					<div className="grid gap-4">
-						<div className="flex flex-col gap-1">
-							<span className="font-medium">{slot.duration}</span>
-							<span className="text-sm text-muted-foreground">
-								{slot.label}
-							</span>
-						</div>
-						{loginFeature && session ? (
-							<div className="flex items-center justify-end gap-2">
-								{calendar.find(
-									(entry) =>
-										entry.date === slot.startTime && entry.position === "1",
-								) ? (
-									<Button
-										color="green"
-										onClick={() =>
-											toggleAdmission({ startTime: slot.startTime, slot: "1" })
-										}
-									>
-										{session?.user?.name || session?.user?.email || ""}
-									</Button>
-								) : (
-									<Button
-										color="gray"
-										onClick={() =>
-											toggleAdmission({ startTime: slot.startTime, slot: "1" })
-										}
-									>
-										Anmäl mig
-									</Button>
-								)}
-
-								{calendar.find(
-									(entry) =>
-										entry.date === slot.startTime && entry.position === "2",
-								) ? (
-									<Button
-										color="green"
-										onClick={() =>
-											toggleAdmission({ startTime: slot.startTime, slot: "2" })
-										}
-									>
-										{session?.user?.name || session?.user?.email || ""}
-									</Button>
-								) : (
-									<Button
-										color="gray"
-										onClick={() =>
-											toggleAdmission({ startTime: slot.startTime, slot: "2" })
-										}
-									>
-										Anmäl mig
-									</Button>
-								)}
-							</div>
-						) : (
-							<form className="flex items-center justify-end gap-2">
-								<TimeSlotField
-									startTime={slot.startTime}
-									calendar={calendar}
-									slot="1"
-									setCalendar={setCalendar}
-								/>
-								<TimeSlotField
-									startTime={slot.startTime}
-									calendar={calendar}
-									slot="2"
-									setCalendar={setCalendar}
-								/>
-							</form>
-						)}
+				<div
+					key={slot.startTime}
+					className="grid gap-4  border-t-2 py-4 border-gray-500"
+				>
+					<div className="flex flex-col gap-1">
+						<span className="font-medium">{slot.duration}</span>
+						<span className="text-sm text-muted-foreground">{slot.label}</span>
 					</div>
+					{loginFeature && session ? (
+						<div className="flex items-center justify-end gap-2">
+							{calendar.find(
+								(entry) =>
+									entry.date === slot.startTime && entry.position === "1",
+							) ? (
+								<Button
+									color="green"
+									onClick={() =>
+										toggleAdmission({ startTime: slot.startTime, slot: "1" })
+									}
+								>
+									{session?.user?.name || session?.user?.email || ""}
+								</Button>
+							) : (
+								<Button
+									color="gray"
+									onClick={() =>
+										toggleAdmission({ startTime: slot.startTime, slot: "1" })
+									}
+								>
+									Anmäl mig
+								</Button>
+							)}
+
+							{calendar.find(
+								(entry) =>
+									entry.date === slot.startTime && entry.position === "2",
+							) ? (
+								<Button
+									color="green"
+									onClick={() =>
+										toggleAdmission({ startTime: slot.startTime, slot: "2" })
+									}
+								>
+									{session?.user?.name || session?.user?.email || ""}
+								</Button>
+							) : (
+								<Button
+									color="gray"
+									onClick={() =>
+										toggleAdmission({ startTime: slot.startTime, slot: "2" })
+									}
+								>
+									Anmäl mig
+								</Button>
+							)}
+						</div>
+					) : (
+						<form className="flex items-center justify-end gap-2">
+							<TimeSlotField
+								startTime={slot.startTime}
+								calendar={calendar}
+								slot="1"
+								setCalendar={setCalendar}
+							/>
+							<TimeSlotField
+								startTime={slot.startTime}
+								calendar={calendar}
+								slot="2"
+								setCalendar={setCalendar}
+							/>
+						</form>
+					)}
 				</div>
 			))}
 		</div>
