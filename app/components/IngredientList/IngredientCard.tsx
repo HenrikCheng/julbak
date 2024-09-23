@@ -30,7 +30,7 @@ const IngredientCard = ({
 					: "border-red-200 dark:border-red-700"
 			}`}
 		>
-			<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+			<h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 				<span
 					className={`mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white ${
 						isCompleted ? "line-through" : ""
@@ -39,7 +39,7 @@ const IngredientCard = ({
 					{ingredient.name}
 				</span>
 				{isCompleted && <span className="ml-2 text-green-500">Klar</span>}
-			</h5>
+			</h3>
 			<p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
 				Insamlat: {sum} av {ingredient.desired_amount} {ingredient.unit}
 			</p>
