@@ -15,14 +15,6 @@ const Footer = () => {
 					</li>
 					<li>
 						<Link
-							href="https://henrikcheng.github.io/react-ts/"
-							className="hover:underline me-4 md:me-6"
-						>
-							Om
-						</Link>
-					</li>
-					<li>
-						<Link
 							href="https://www.linkedin.com/in/henrik-cheng/"
 							className="hover:underline me-4 md:me-6"
 						>

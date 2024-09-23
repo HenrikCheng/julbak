@@ -1,24 +1,21 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+	const pathname = usePathname();
 	return (
 		<nav className="max-w-screen-xl w-full">
 			<div className="max-w-screen-xl w-full flex flex-wrap items-center justify-between mx-auto p-4">
-				<a
-					href="https://flowbite.com/"
-					className="flex items-center space-x-3 rtl:space-x-reverse"
-				>
-					<Image
-						src="https://flowbite.com/docs/images/logo.svg"
-						className="h-8"
-						alt="Flowbite Logo"
-						width={50}
-						height={50}
-					/>
-					<span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-						Flowbite
+				<div>
+					<span className="inline-block text-2xl brightness-75 -rotate-90">
+						🍪
 					</span>
-				</a>
+					<span className="inline-block text-2xl brightness-90">🍪</span>
+					<span className="inline-block text-2xl rotate-45">🍪</span>
+				</div>
 				<button
 					data-collapse-toggle="navbar-default"
 					type="button"
@@ -46,21 +43,24 @@ const Navbar = () => {
 				<div className="hidden w-full md:block md:w-auto" id="navbar-default">
 					<ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
 						<li>
-							<a
-								href="#"
-								className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-								aria-current="page"
+							<Link
+								href="/"
+								className={`hover:underline me-4 md:me-6 ${
+									pathname === "/" && "text-blue-500"
+								}`}
 							>
-								Home
-							</a>
+								Hem
+							</Link>
 						</li>
 						<li>
-							<a
-								href="#"
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+							<Link
+								href="/contact"
+								className={`hover:underline ${
+									pathname === "/contact" && "text-blue-500"
+								}`}
 							>
 								Contact
-							</a>
+							</Link>
 						</li>
 					</ul>
 				</div>
