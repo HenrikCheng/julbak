@@ -7,8 +7,8 @@ import { TypeAnimation } from "react-type-animation";
 
 type JumbotronProps = {
 	session?: Session;
-	signIn: any;
-	signOut: any;
+	signIn?: any;
+	signOut?: any;
 };
 
 const LinkComponent = () => (
@@ -40,7 +40,7 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 		<section className="bg-white dark:bg-gray-900">
 			<div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
 				<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-					Pepparkaksbak 2024
+					Pepparkaksbaket 2024
 				</h1>
 				<p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
 					Varje år har vi en fin tradition där vi ordnar pepparkaksbak där

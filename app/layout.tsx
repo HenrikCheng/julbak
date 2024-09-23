@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Pepparkaksbak 2024 - Stöd barnens aktiviteter",
+	title: "Pepparkaksbaket 2024 - Stöd barnens aktiviteter",
 	description:
 		"Var med på vårt årliga pepparkaksbak! Intäkterna går till barnens aktiviteter. Hjälp till med baket eller bidra med ingredienser. Läs mer här!",
 };

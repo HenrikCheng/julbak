@@ -43,44 +43,24 @@ const TimeSlotCalendar = ({ session }: TimeSlotCalendarProps) => {
 	}
 
 	return (
-		<div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto py-6 sm:py-8 md:py-10 flex-shrink-0">
-			<div className="space-y-4 min-w-80">
-				<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
-				{loading ? (
-					<div className="min-w-80">
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-					</div>
-				) : (
-					<TimeSlotDay
-						calendar={calendar}
-						weekday={TIME_SLOTS_SATURDAY}
-						setCalendar={setCalendar}
-						session={session || undefined}
-					/>
-				)}
-			</div>
-			{/* <div className="space-y-4">
-				<h2 className="text-2xl font-semibold">Söndag 15/12</h2>
-				{loading ? (
-					<div className="w-80">
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-						<Skeleton />
-					</div>
-				) : (
-					<TimeSlotDay
-						calendar={calendar}
-						weekday={TIME_SLOTS_SATURDAY}
-						setCalendar={setCalendar}
-					/>
-				)}
-			</div> */}
+		<div className="flex flex-col min-w-80">
+			<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
+			{loading ? (
+				<div className="min-w-80">
+					<Skeleton />
+					<Skeleton />
+					<Skeleton />
+					<Skeleton />
+					<Skeleton />
+				</div>
+			) : (
+				<TimeSlotDay
+					calendar={calendar}
+					weekday={TIME_SLOTS_SATURDAY}
+					setCalendar={setCalendar}
+					session={session || undefined}
+				/>
+			)}
 		</div>
 	);
 };

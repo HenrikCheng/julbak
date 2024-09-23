@@ -38,7 +38,7 @@ const IngredientList: React.FC = () => {
 	}
 
 	return (
-		<ul id="Ingredients" className="py-6 sm:py-8 md:py-10">
+		<ul id="Ingredients">
 			<h2 className="text-2xl font-semibold">Ingredienser</h2>
 			{loading ? (
 				<div className="grid grid-flow-row grid-cols-1 gap-2">

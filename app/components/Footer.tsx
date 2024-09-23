@@ -9,11 +9,16 @@ const Footer = () => {
 				</span>
 				<ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
 					<li>
+						<Link href="/" className="hover:underline me-4 md:me-6">
+							Hem
+						</Link>
+					</li>
+					<li>
 						<Link
 							href="https://henrikcheng.github.io/react-ts/"
 							className="hover:underline me-4 md:me-6"
 						>
-							About
+							Om
 						</Link>
 					</li>
 					<li>
@@ -25,9 +30,9 @@ const Footer = () => {
 						</Link>
 					</li>
 					<li>
-						<a href="mailto:henrikcheng@live.se" className="hover:underline">
+						<Link href="/contact" className="hover:underline">
 							Contact
-						</a>
+						</Link>
 					</li>
 				</ul>
 			</div>
