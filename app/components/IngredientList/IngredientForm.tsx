@@ -173,6 +173,7 @@ FormProps) => {
 					required
 					value={floatingNumber}
 					onChange={(e) => setFloatingNumber(Number(e.target.value))}
+					min={1}
 				/>
 				<label
 					htmlFor="floating_number"
