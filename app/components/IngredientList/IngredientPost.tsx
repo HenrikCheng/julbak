@@ -64,12 +64,12 @@ const IngredientPost = ({
 				index % 2 === 0 ? "bg-slate-200 dark:bg-slate-700" : "bg-transparent"
 			}`}
 		>
-			<p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
+			<p className="font-normal text-gray-700 dark:text-gray-300 mb-2">
 				{`${contributor.contributor}, ${contributor.amount?.toString() || 0} ${
 					ingredient.unit
 				}.`}
 			</p>
-			<p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
+			<p className="font-normal text-gray-700 dark:text-gray-300 mb-2">
 				{localeDate}
 			</p>
 			{contributor.note && (
