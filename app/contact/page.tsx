@@ -8,7 +8,7 @@ import Button from "../components/Button";
 const ContactPage = () => {
 	const [formData, setFormData] = useState({
 		from_name: "",
-		to_name: "Recipient Name",
+		to_name: "Henrik Cheng",
 		email: "",
 		message: "",
 	});
