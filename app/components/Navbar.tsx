@@ -7,6 +7,7 @@ import Button from "./Button";
 const Navbar = () => {
 	const [name, setName] = useState("");
 	const [phone, setPhone] = useState("");
+	const [hidden, setHidden] = useState(false);
 
 	const { data: session, status } = useSession();
 
@@ -18,14 +19,23 @@ const Navbar = () => {
 		}
 	}, [session, status]);
 
+	if (hidden)
+		return (
+			<div className="fixed top-0">
+				<Button type="button" onClick={() => setHidden(!hidden)}>
+					V
+				</Button>
+			</div>
+		);
+
 	return (
 		<nav className="max-w-screen-xl w-full fixed top-0 bg-gray-900">
-			<div className="max-w-screen-xl w-full flex flex-wrap items-center justify-between mx-auto p-4">
-				<form className="flex items-end gap-2 mx-auto flex-wrap">
-					<div className="flex-shrink-0">
+			<div className="max-w-screen-xl w-full flex flex-wrap items-center justify-center mx-auto p-4">
+				<form className="flex flex-col sm:flex-row items-end gap-2 w-full sm:w-auto mx-auto">
+					<div className="w-full sm:w-auto">
 						<label
 							htmlFor="Username"
-							className="mb-2 text-sm font-medium text-gray-900 dark:text-white flex-shrink-0"
+							className="mb-2 text-sm font-medium text-gray-900 dark:text-white"
 						>
 							Namn:
 						</label>
@@ -39,7 +49,7 @@ const Navbar = () => {
 							disabled={!!session?.user?.name && status === "authenticated"}
 						/>
 					</div>
-					<div className="flex-shrink-0">
+					<div className="w-full sm:w-auto">
 						<label
 							htmlFor="PhoneNumber"
 							className="mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -55,15 +65,20 @@ const Navbar = () => {
 							onChange={(e) => setPhone(e.target.value)}
 						/>
 					</div>
-					<Button
-						type="submit"
-						onClick={(e) => {
-							e.preventDefault();
-							console.log("Pressed");
-						}}
-					>
-						Uppdatera
-					</Button>
+					<div className="w-full sm:w-auto">
+						<Button
+							type="submit"
+							onClick={(e) => {
+								e.preventDefault();
+								console.log("Pressed");
+							}}
+						>
+							Uppdatera
+						</Button>
+						<Button type="button" onClick={() => setHidden(!hidden)}>
+							Ʌ
+						</Button>
+					</div>
 				</form>
 			</div>
 		</nav>
