@@ -11,7 +11,7 @@ export async function GET() {
 			.collection("time_slot_booking")
 			.find({})
 			.sort({ date: 1 })
-			.limit(10)
+			.limit(100)
 			.toArray();
 
 		return NextResponse.json(ingredients);
@@ -97,6 +97,52 @@ export async function DELETE(request: Request) {
 			{ message: "Item deleted successfully" },
 			{ status: 200 },
 		);
+	} catch (error) {
+		console.error(error);
+		return NextResponse.json(
+			{ error: "Internal Server Error" },
+			{ status: 500 },
+		);
+	}
+}
+
+export async function PUT(request: Request) {
+	try {
+		const db = (await clientPromise).db("Christmas_bake");
+		const url = new URL(request.url);
+		const _id = url.searchParams.get("_id");
+
+		if (!_id)
+			return NextResponse.json({ error: "No _id provided" }, { status: 400 });
+
+		const updatedItem = await request.json();
+		const { name, date, position } = updatedItem;
+
+		if (!name || !date || !position)
+			return NextResponse.json(
+				{ error: "Missing name, date or position" },
+				{ status: 400 },
+			);
+
+		const existingItem = await db
+			.collection("time_slot_booking")
+			.findOne({ _id: new ObjectId(_id) });
+		if (!existingItem) {
+			return NextResponse.json({ error: "Item not found" }, { status: 404 });
+		}
+
+		const result = await db
+			.collection("time_slot_booking")
+			.replaceOne({ _id: new ObjectId(_id) }, { name, date, position });
+
+		if (result.modifiedCount === 0) {
+			return NextResponse.json({ error: "No changes made" }, { status: 400 });
+		}
+
+		return NextResponse.json({
+			message: "Update successful",
+			updatedItem: { name, date, position },
+		});
 	} catch (error) {
 		console.error(error);
 		return NextResponse.json(

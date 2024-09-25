@@ -11,7 +11,7 @@ export async function GET() {
 			.collection("bake_content")
 			.find({})
 			.sort({ name: 1 })
-			.limit(10)
+			.limit(100)
 			.toArray();
 
 		return NextResponse.json(ingredients);
