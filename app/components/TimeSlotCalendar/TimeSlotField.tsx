@@ -1,5 +1,6 @@
 import { TimeSlotAPI } from "@/app/types";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import Button from "../Button";
 
 type TimeSlotFieldProps = {
 	startTime: string;
@@ -101,12 +102,12 @@ const TimeSlotField = ({
 				{`Deltagare ${slot}`}
 			</label>
 
-			<button type="button" onClick={handleSubmit}>
-				Submit
-			</button>
-			<button type="button" onClick={handleClear}>
-				Clear
-			</button>
+			<div className="mt-2">
+				<Button onClick={handleSubmit}>Submit</Button>
+				<Button color="transparent" onClick={handleClear}>
+					Clear
+				</Button>
+			</div>
 		</div>
 	);
 };
