@@ -21,7 +21,7 @@ const Navbar = () => {
 
 	if (hidden)
 		return (
-			<div className="fixed top-0">
+			<div className="fixed top-2">
 				<Button type="button" onClick={() => setHidden(!hidden)}>
 					V
 				</Button>
@@ -29,7 +29,7 @@ const Navbar = () => {
 		);
 
 	return (
-		<nav className="max-w-screen-xl w-full fixed top-0 bg-gray-900">
+		<nav className="max-w-screen-xl w-full fixed top-0 bg-gray-900 rounded-b-full">
 			<div className="max-w-screen-xl w-full flex flex-wrap items-center justify-center mx-auto p-4">
 				<form className="flex flex-col sm:flex-row items-end gap-2 w-full sm:w-auto mx-auto">
 					<div className="w-full sm:w-auto">
@@ -65,21 +65,24 @@ const Navbar = () => {
 							onChange={(e) => setPhone(e.target.value)}
 						/>
 					</div>
-					<div className="w-full sm:w-auto">
+					<div className="w-full sm:w-auto flex justify-between items-center">
 						<Button
 							type="submit"
 							onClick={(e) => {
 								e.preventDefault();
 								console.log("Pressed");
 							}}
+							disabled={!name || !phone}
 						>
 							Uppdatera
 						</Button>
-						<Button type="button" onClick={() => setHidden(!hidden)}>
-							Ʌ
-						</Button>
 					</div>
 				</form>
+			</div>
+			<div className="absolute left-0 right-0 flex justify-center items-center">
+				<Button type="button" onClick={() => setHidden(!hidden)}>
+					Ʌ
+				</Button>
 			</div>
 		</nav>
 	);
