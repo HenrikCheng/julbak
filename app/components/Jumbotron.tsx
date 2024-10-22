@@ -50,8 +50,6 @@ const Jumbotron = ({ session, signIn, signOut }: JumbotronProps) => {
 					knappen för att se{" "}
 					<TypeAnimation
 						sequence={[
-							"vad som behövs.",
-							2000,
 							"vad du kan hjälpa.",
 							1000,
 							"vad du kan hjälpa till med.",
