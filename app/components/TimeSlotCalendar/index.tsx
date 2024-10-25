@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Skeleton from "../Skeleton";
-import TimeSlotDay from "./TimeSlotDay";
 import { TIME_SLOTS_SATURDAY } from "@/app/constants";
 import { Session } from "next-auth";
+import TimeSlotDayV2 from "./TimeSlotDayV2";
 
 type TimeSlotCalendarProps = {
 	session?: Session;
@@ -45,22 +45,22 @@ const TimeSlotCalendar = ({ session }: TimeSlotCalendarProps) => {
 	return (
 		<div className="flex flex-col min-w-80">
 			<h2 className="text-2xl font-semibold">Lördag 14/12</h2>
-			{loading ? (
-				<div className="min-w-80">
-					<Skeleton />
-					<Skeleton />
-					<Skeleton />
-					<Skeleton />
-					<Skeleton />
-				</div>
-			) : (
-				<TimeSlotDay
-					calendar={calendar}
-					weekday={TIME_SLOTS_SATURDAY}
-					setCalendar={setCalendar}
-					session={session || undefined}
-				/>
-			)}
+			<div className="flex flex-row gap-8">
+				{loading ? (
+					<div className="min-w-80">
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+						<Skeleton />
+					</div>
+				) : (
+					<TimeSlotDayV2
+						calendarSlots={TIME_SLOTS_SATURDAY}
+						calendar={calendar}
+					/>
+				)}
+			</div>
 		</div>
 	);
 };

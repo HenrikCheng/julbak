@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Jumbotron from "./components/Jumbotron";
 import IngredientList from "./components/IngredientList";
-import Footer from "./components/Footer";
 import TimeSlotCalendar from "./components/TimeSlotCalendar";
 import Layout from "./components/Layout";
 

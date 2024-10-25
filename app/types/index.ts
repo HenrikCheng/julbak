@@ -20,6 +20,7 @@ export type TimeSlotAPI = {
 	name: string;
 	date: string;
 	position: string;
+	phone?: string;
 };
 
 export type TimeSlot = {
